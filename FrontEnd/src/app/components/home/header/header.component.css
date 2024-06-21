@@ -10,3 +10,7 @@
 .navbar-toggler{
     color: #fff;
 }
+
+.nav-link{
+    cursor: pointer;
+}

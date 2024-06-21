@@ -10,7 +10,48 @@ html {
 .right-box {
     padding: 40px 30px 40px 40px;
 }
+.btn-sb {
+    background: #088baf;
+    color: #fff;
+    border: none;
+    position: relative;
+    height: 60px;
+    font-size: 1.6em;
+    padding: 0 2em;
+    cursor: pointer;
+    transition: 800ms ease all;
+    outline: none;
+}
 
+.btn-sb:hover {
+    background: #fff;
+    color: #088baf;
+}
+
+.btn-sb:before,
+.btn-sb:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 2px;
+    width: 0;
+    background: #088baf;
+    transition: 400ms ease all;
+}
+
+.btn-sb:after {
+    right: inherit;
+    top: inherit;
+    left: 0;
+    bottom: 0;
+}
+
+.btn-sb:hover:before,
+.btn-sb:hover:after {
+    width: 100%;
+    transition: 800ms ease all;
+}
 
 @media only screen and (max-width: 768px) {
     .box-area {
@@ -32,3 +73,4 @@ html {
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+

@@ -17,7 +17,7 @@ use App\Http\Controllers\ReservacionUsuarioController;
 Route::middleware([VerifyToken::class])->group(function () {
     Route::post("/users", [UsuarioController::class, 'store'])->middleware(verfiryAdminRol::class);
     Route::get('/users', [UsuarioController::class, 'index'])->middleware(verfiryAdminRol::class);
-
+    Route::post('/habitaciones/filterSearch',[HabitacionController::class,'findBy']);
 
     Route::middleware(VerifyToken::class)->group(function () {
         Route::get('/users/Reservacion', [ReservacionUsuarioController::class, 'index']);

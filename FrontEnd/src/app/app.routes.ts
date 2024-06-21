@@ -8,10 +8,10 @@ import { AdminComponent } from './components/admin/admin.component';
 import { authGuard } from './guards/auth.guard';
 import { rolGuard } from './guards/rol.guard';
 import { roomsService } from './services/rooms.service';
-import { HabitacionesComponent } from './components/habitaciones/habitaciones.component';
 import { ClienteComponent } from './components/admin/cliente/cliente.component';
 import { ReservacionComponent } from './components/admin/reservacion/reservacion.component';
 import { HabitacionComponent } from './components/admin/habitacion/habitacion.component';
+import { RoomsComponent } from './components/home/habitaciones/rooms.component';
 export const routes: Routes = [
     {
         path: 'auth',
@@ -26,7 +26,7 @@ export const routes: Routes = [
         path: 'home', component: HomeComponent
     },
     {
-        path: 'rooms', component: HabitacionesComponent
+        path: 'rooms', component: RoomsComponent
     },
 
     {
