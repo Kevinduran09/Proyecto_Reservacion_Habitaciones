@@ -92,8 +92,9 @@ export class FormRoomsComponent implements OnInit {
       queryParams: {
         dateStart: dateBegin,
         dateEnd: dateEnd,
-        typeRoom: typeRoom
+        typeRoom: typeRoom 
       }
     });
   }
 }
+// 
