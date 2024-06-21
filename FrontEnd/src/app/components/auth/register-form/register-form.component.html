@@ -1,0 +1,49 @@
+<div class="row align-items-center">
+    <div class="header-text mb-2">
+        <h2>Registrar Usuario</h2>
+        <p>Ingrese todos sus datos</p>
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nombre"
+                formControlName="nombre">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Apellidos"
+                formControlName="apellidos">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Correo electronico"
+                formControlName="correo">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Cedula"
+                formControlName="cedula">
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6" placeholder="Nombre Usuario"
+                formControlName="nomUsuario">
+        </div>
+        <div class="input-group mb-3">
+            <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Contraseña"
+                formControlName="contrasena">
+        </div>
+
+        <div class="input-group mb-3">
+            <button class="btn btn-lg btn-primary w-100 fs-6" [disabled]="registerForm.invalid">
+                @if(isregister){
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only ms-2">Registrando...</span>
+                }@else {
+                    Registrar
+                }
+            </button>
+        </div>
+
+        <div class="row">
+            <span>Ya tienes una cuenta?
+                <a [routerLink]="['/auth/login']">Iniciar Sesion</a>
+            </span>
+        </div>
+    </form>
+</div>

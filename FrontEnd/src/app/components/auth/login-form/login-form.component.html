@@ -1,0 +1,62 @@
+<div class="row align-items-center">
+
+
+    <div class="header-text mb-4">
+        <h2>Inicio de Sesion</h2>
+        <p>Para ingresar debe utilizar sus datos</p>
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class=" mb-3">
+            <input type="text" class="form-control form-control-lg bg-light fs-6 " placeholder="Nombre de usuario"
+                formControlName="nomUsuario">
+            <div class="alert alert-danger mt-2 p-2"
+                *ngIf="nomUsuario.invalid && (nomUsuario.dirty || nomUsuario.touched)">
+                El nombre de usuario es requerido.
+            </div>
+
+        </div>
+        <div class=" mb-2">
+            <input type="password" class="form-control form-control-lg bg-light fs-6" placeholder="Contraseña"
+                formControlName="contrasena">
+
+            <div class="alert alert-danger mt-2 p-2"
+                *ngIf="contrasena.invalid && (contrasena.dirty || contrasena.touched)">
+                La Contraseña es obligatoria
+            </div>
+        </div>
+        <div class="input-group mb-5 d-flex justify-content-between">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="formCheck">
+                <label for="formCheck" class="form-check-label text-secondary"><span>Remember Me</span></label>
+            </div>
+            <div class="forgot">
+                <span><a href="#">Olvido su contraseña?</a></span>
+            </div>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-lg btn-primary w-100 fs-6" [disabled]="loginForm.invalid">
+                @if (isLogging) {
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span class="sr-only ms-2">Iniciando...</span>
+                }@else {
+                    Iniciar Sesion
+                }
+            </button>
+        </div>
+        <div class="input-group mb-3">
+            <button class="btn btn-lg btn-light w-100 fs-6">
+                <img class="me-3" src="../../assets/images/google.png" alt="" style="width: 20px;">
+                <span>
+                    Sign in with Google
+                </span>
+            </button>
+        </div>
+        <div class="row">
+            <span>No tienes una cuenta?
+                <a [routerLink]="['/auth/register']">Registrarse</a>
+            </span>
+        </div>
+
+    </form>
+
+</div>

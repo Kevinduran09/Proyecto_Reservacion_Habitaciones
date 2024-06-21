@@ -1,0 +1,52 @@
+.mt-10 {
+    margin-top: 10%;
+}
+
+.mt-15 {
+    margin-top: 15%;
+}
+
+h1 {
+    letter-spacing: 3px;
+}
+
+.logo-circle {
+    position: relative;
+    right: 30px;
+    bottom: 30px;
+    width: 30vw;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    margin-top: -50px;
+}
+
+.ms-15 {
+    margin-left: 5%;
+}
+
+
+
+@media only screen and (max-width: 1320px) {
+    .info {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .text-content {
+        margin-left: 0;
+    }
+
+    .logo-circle {
+        width: 50%;
+        height: 25vh;
+        border-radius: 50%;
+        background-color: #333;
+        margin-top: 20px;
+        margin-bottom: 15px;
+    }
+    .navbar-toggler{
+        background-color: #fff;
+    }
+}

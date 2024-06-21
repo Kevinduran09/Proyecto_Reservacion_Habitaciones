@@ -1,0 +1,39 @@
+  #services .text-content {
+      height: 100%;
+      width: 60%;
+      font-size: 1.70rem;
+      padding: 5rem;
+      margin-left: 4rem;
+
+  }
+
+ .container {
+     display: flex;
+     flex-wrap: wrap;
+     justify-content: center;
+     gap: 20px;
+     padding: 20px;
+ }
+
+ .card {
+     width: 100%;
+     margin: 0 20px;
+     height: 150px;
+     border-radius: 10px;
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+     overflow: hidden;
+     transition: .5s ease 0s;
+     position: relative;
+ }
+ 
+ .card:hover{
+    height: 200px;
+ }
+ .card span{
+    position: absolute;
+    bottom: 0;
+    padding: 0 0 1rem 1.3rem;
+    font-size: 1.45rem;
+    color: rgb(125, 191, 196);
+    font-weight: 500;
+ }

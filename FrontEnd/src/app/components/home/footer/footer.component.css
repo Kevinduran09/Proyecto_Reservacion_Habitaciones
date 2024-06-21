@@ -1,0 +1,22 @@
+.footer {
+    background-color: #f8f9fa;
+    /* Cambiar al color que desees */
+    color: black;
+    /* Cambiar al color que desees */
+    text-align: left;
+    padding: 20px 0;
+}
+
+.footer h5 {
+    color: #212529;
+    /* Cambiar al color que desees para los títulos */
+}
+
+.footer ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+.footer p {
+    margin-bottom: 0.5rem;
+}
