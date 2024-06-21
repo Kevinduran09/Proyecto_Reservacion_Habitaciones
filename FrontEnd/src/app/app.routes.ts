@@ -9,6 +9,9 @@ import { authGuard } from './guards/auth.guard';
 import { rolGuard } from './guards/rol.guard';
 import { roomsService } from './services/rooms.service';
 import { HabitacionesComponent } from './components/habitaciones/habitaciones.component';
+import { ClienteComponent } from './components/admin/cliente/cliente.component';
+import { ReservacionComponent } from './components/admin/reservacion/reservacion.component';
+import { HabitacionComponent } from './components/admin/habitacion/habitacion.component';
 export const routes: Routes = [
     {
         path: 'auth',
@@ -27,7 +30,12 @@ export const routes: Routes = [
     },
 
     {
-        path: 'admin', component: AdminComponent, canActivate: [authGuard], data: { expectedRol: 'admin' } // espera un rol admin
+        path: 'admin', component: AdminComponent, canActivate: [authGuard], data: { expectedRol: 'admin' },
+        children:[
+            {path:'cliente',component:ClienteComponent},
+            {path:'habitacion',component:HabitacionComponent},
+            {path:'reservacion',component:ReservacionComponent}
+        ]
     },
     {
         path: '',
