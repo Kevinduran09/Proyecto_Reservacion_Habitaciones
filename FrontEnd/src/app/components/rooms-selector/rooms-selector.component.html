@@ -1,0 +1,19 @@
+
+<div class="room-selector" [formGroup]="roomForm">
+    <label for="roomCount">Número de Habitaciones:</label>
+    <input type="number" id="roomCount" (input)="setRooms($event)" min="1" value="1">
+
+    <div formArrayName="rooms">
+        <div *ngFor="let room of rooms.controls; let i = index" [formGroupName]="i">
+            <h3>Habitación {{ i + 1 }}</h3>
+            <label>Personas:</label>
+            <select formControlName="countpeople">
+                <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">{{ num }}</option>
+            </select>
+
+            
+        </div>
+    </div>
+
+    <button (click)="onSubmit()">Guardar Cambios</button>
+</div>

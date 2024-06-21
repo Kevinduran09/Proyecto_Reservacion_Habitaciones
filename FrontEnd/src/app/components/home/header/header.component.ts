@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
+import { ViewportScroller } from '@angular/common';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -11,7 +12,10 @@ import { SweetAlertService } from '../../../services/sweet-alert.service';
 })
 export class HeaderComponent implements OnInit {
   isAuth:boolean = false
-  constructor(private service: AuthService, private swal: SweetAlertService, private router: Router){
+  constructor(private service: AuthService,
+    private swal: SweetAlertService, 
+    private router: Router, 
+    private viewportScroller: ViewportScroller){
   this.getIndentity()
   }
   ngOnInit(): void {
@@ -28,6 +32,13 @@ export class HeaderComponent implements OnInit {
       
     }
   }
+  scrollTo(anchor: string) {
+    this.router.navigate([], { fragment: anchor });
+    this.viewportScroller.scrollToAnchor(anchor);
+  }
+
+  
+
   logout(){
     sessionStorage.clear()
     this.isAuth = false

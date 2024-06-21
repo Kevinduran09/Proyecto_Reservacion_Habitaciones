@@ -1,0 +1,23 @@
+
+
+.content-img {
+    position: relative;
+}
+
+.content p {
+    font-size: 1rem;
+}
+
+.info-status {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0.45rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.notavailable {
+    background-color: rgba(219, 2, 2, 0.5);
+    color: #fff;
+}

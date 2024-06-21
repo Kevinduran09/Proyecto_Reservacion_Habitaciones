@@ -1,0 +1,60 @@
+
+.room-selector {
+    max-width: 600px;
+    /* Ajustar según el diseño */
+    background-color: #fff;
+    
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.room-selector h3 {
+    margin-top: 0;
+    color: #333;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.room-selector label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+    font-weight: bold;
+}
+
+.room-selector select,
+.room-selector input[type="number"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+
+
+.room-selector button {
+    background-color: #0056b3;
+    /* Un color azul oscuro */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.room-selector button:hover {
+    background-color: #003975;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .room-selector {
+        padding: 15px;
+    }
+}

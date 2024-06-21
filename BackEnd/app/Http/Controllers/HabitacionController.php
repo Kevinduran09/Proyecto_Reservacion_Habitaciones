@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Cloudinary\Api\Upload\UploadApiResponse;
-
+use Illuminate\Support\Facades\DB;
 class HabitacionController extends Controller
 {
 
@@ -77,7 +77,52 @@ class HabitacionController extends Controller
             'status' => 200
         ], 200);
     }
+    public function findBy(Request $request){
+        $validator = Validator::make($request->all(), [
+            'dateStart' => 'required|date',
+            'dateEnd' => 'required|date|after:dateStart',
+            'typeRoom' => 'nullable|exists:tipohabitacion,id',
+            'minValue' => 'numeric|min:0',
+            'maxValue' => 'numeric|min:0'
+        ]);
 
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Error al validar los datos',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ], 400);
+        }
+
+        $dateStart = $request->input('dateStart');
+        $dateEnd = $request->input('dateEnd');
+        $typeRoom = $request->input('typeRoom');
+        $minValue = $request->input('minValue');
+        $maxValue = $request->input('maxValue');
+
+        // Consulta de habitaciones
+        $rooms = Habitacion::with('tipoHabitacion')
+        ->leftJoin('reservacion_habitacion', 'habitacion.id', '=', 'reservacion_habitacion.habitacion_id')
+        ->leftJoin('reservacion', 'reservacion_habitacion.reservacion_id', '=', 'reservacion.id')
+        ->where(function ($query) use ($dateStart, $dateEnd) {
+            $query->whereNull('reservacion.fechaIngreso')
+            ->orWhere(function ($query) use ($dateStart, $dateEnd) {
+                $query->where('reservacion.fechaIngreso', '>', $dateEnd)
+                    ->orWhere('reservacion.fechaSalida', '<', $dateStart);
+            });
+        })
+            ->where('habitacion.precioNoche', '>=', $minValue)
+            ->where('habitacion.precioNoche', '<=', $maxValue)
+            ->where('habitacion.disponibilidad','Disponible');
+
+        if (!is_null($typeRoom)) {
+            $rooms = $rooms->where('habitacion.tipo_habitacion_id', $typeRoom);
+        }
+
+        $rooms = $rooms->select('habitacion.*')->get();
+
+        return response()->json($rooms,200);
+    }
     /**
      * Partially update the specified resource in storage.
      */

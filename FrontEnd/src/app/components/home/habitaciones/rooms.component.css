@@ -1,0 +1,39 @@
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+
+
+.price-slider {
+    margin: 20px;
+}
+
+.mat-slider {
+    width: 100%;
+    /* Ajusta al tamaño del contenedor */
+}
+
+.mat-slider-thumb {
+    background-color: #009688;
+    /* Cambia el color de los pulgares */
+}
+
+.mat-slider-track-fill {
+    background-color: #009688;
+    /* Cambia el color de la pista rellena */
+}
+
+.mat-slider-thumb {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Suaviza el movimiento del pulgar */
+}
+
+.mat-slider-track-fill {
+    transition: background-color 0.3s ease;
+    /* Cambia suavemente el color de fondo al ajustar */
+}
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
+}

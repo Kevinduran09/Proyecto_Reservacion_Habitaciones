@@ -4,13 +4,16 @@
             <div class="col-12 d-flex info">
                 <div>
                     <img class="img-fluid logo-circle " src="../../../../assets/images/logos/Vuela por menos dinero.png"
-                        alt="">
+                        alt="" [routerLink]="['home']" style="cursor: pointer;" >
                 </div>
                 <div class="text-content">
                     <h1 class="text-uppercase fw-semibold display-1 text-white">Moon light Hotel</h1>
                     <p class="text-white mt-5 me-5 fs-2">
-                       Relajate esta noche con el sonido de las olas
+                        Vive la Magia del Mar bajo un Cielo Estrellado
                     </p>
+                    <div class="input-group mt-3 justify-content-center ">
+                        <button (click)="onsubmit()" class="btn-sb">Reserva ahora!</button>
+                    </div>
                 </div>
             </div>
         </div>
