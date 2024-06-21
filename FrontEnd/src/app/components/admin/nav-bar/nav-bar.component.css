@@ -1,0 +1,8 @@
+.sidebar {
+    background-color: red;
+    height: 100vh;
+    border-radius: 0 20px 20bpx 0;
+    -webkit-box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
+    -moz-box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
+    box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
+}

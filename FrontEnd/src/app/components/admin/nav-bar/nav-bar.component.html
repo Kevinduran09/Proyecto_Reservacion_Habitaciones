@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<!-- <div class="container-fluid">
     <div class="row mt-3 justify-content-md-start shadow-sm p-3">
         <div class="col-2">
             <button class="btn ms-2" (click)="open()">
@@ -8,4 +8,14 @@
         <div class="col-8">
             <div class="h2 text-center">Titulo dinamico</div>
         </div>
-    </div>
+    </div> -->
+
+
+<div class="sidebar">
+    <ul>
+        <li><a [routerLink]="['cliente']">Modulo Cliente</a></li>
+        <li><a [routerLink]="['habitacion']">Modulo Habitacion</a></li>
+        <li><a [routerLink]="['reservacion']">Modulo Reservacion</a></li>
+        <li><a [routerLink]="['']">Modulo Facturas</a></li>
+    </ul>
+</div>
