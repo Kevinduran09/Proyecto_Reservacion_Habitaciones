@@ -1,0 +1,78 @@
+<div class="col-md-12 mt-4">
+  <div class="text-center mt-3">
+    <h3>Editar Cliente</h3>
+  </div>
+
+  <form class="col-md-8 mx-auto" #editForm="ngForm" (ngSubmit)="onUpdate()">
+    <div class="form-group">
+      <label for="nombre">Nombre</label>
+      <input
+        disabled
+        id="nombre"
+        type="text"
+        #nombre="ngModel"
+        class="form-control"
+        name="nombre"
+        required
+        [(ngModel)]="client.nombre"
+      />
+
+      <label for="apellidos">Apellidos</label>
+      <input
+        id="apellidos"
+        type="text"
+        #apellidos="ngModel"
+        class="form-control"
+        name="apellidos"
+        required
+        [(ngModel)]="client.apellidos"
+      />
+
+      <label for="email">Correo Electrónico</label>
+      <input
+        id="email"
+        type="text"
+        #email="ngModel"
+        class="form-control"
+        name="email"
+        required
+        [(ngModel)]="client.correo"
+      />
+
+      <label for="nomUsuario">Nombre de usuario</label>
+      <input
+        id="nomUsuario"
+        type="text"
+        #nomUsuario="ngModel"
+        class="form-control"
+        name="nomUsuario"
+        required
+        [(ngModel)]="client.nomUsuario"
+      />
+
+      <label for="rolId">Tipo de rol</label>
+      <input
+        id="rolId"
+        type="number"
+        #rolId="ngModel"
+        class="form-control"
+        name="rolId"
+        required
+        [(ngModel)]="client.rol_id"
+      />
+      <small class="form-text text-muted"
+        >Solo se acepta el valor "1" o bien "2".</small
+      >
+    </div>
+
+    <div class="text-center mt-3">
+      <button
+        type="submit"
+        class="btn btn-primary mt-2"
+        [disabled]="editForm.invalid"
+      >
+        Actualizar
+      </button>
+    </div>
+  </form>
+</div>
