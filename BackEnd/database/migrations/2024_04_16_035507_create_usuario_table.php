@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('correo')->unique();
             $table->string('nomUsuario')->unique();
             $table->string('contrasena');
-            $table->string('url')->nullable();
-            $table->string('public_id')->nullable();
+            $table->text('url')->nullable();
+            $table->text('public_id')->nullable();
             $table->unsignedBigInteger('rol_id');
             $table->foreign('rol_id')->references('id')->on('Rol')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
@@ -36,6 +36,7 @@ return new class extends Migration
             'contrasena'=> hash("sha256",'admin'),
             'rol_id'=> 1,
         ]);
+        
         DB::table('Usuario')->insert([
             'cedula' => '5044000535',
             'nombre' => 'kevin',
