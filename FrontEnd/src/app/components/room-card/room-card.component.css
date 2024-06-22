@@ -2,12 +2,15 @@
 
 .content-img {
     position: relative;
+
 }
 
 .content p {
     font-size: 1rem;
 }
-
+.img-fluid{
+    height: 256px;
+}
 .info-status {
     position: absolute;
     bottom: 0;

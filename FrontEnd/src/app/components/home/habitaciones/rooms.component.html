@@ -1,148 +1,68 @@
-<section class="min-vh-100 d-flex justify-content-center " id="rooms" style="background-color: #f2f6f8">
-    <div class="pt-5">
-        <div class="row w-100 justify-content-center align-items-center">
-            <div class="col col-12 text-center">
-                <h2 class="fs-1">Encuentra tu habitación deseada</h2>
+<section class="min-vh-100 d-flex justify-content-center" id="rooms" style="background-color: #f2f6f8">
+    <div class="container pt-5">
+        <div class="text-center mb-5">
+            <h2 class="fs-1">Encuentra tu habitación deseada</h2>
+        </div>
+        <form [formGroup]="formdata" (ngSubmit)="onsubmit()" class="row g-3 justify-content-center">
+            <!-- Fecha de Ingreso y Salida -->
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Fecha de Ingreso</mat-label>
+                    <input matInput [matDatepicker]="picker1" formControlName="dateStart" placeholder="Choose a date">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
             </div>
-            <form class="mt-5" [formGroup]="formdata" (ngSubmit)="onsubmit()">
-                <!-- seccion de horas y habitaciones -->
-                <div class="gap-5 justify-content-center" style="display: inline-flex; width: 100%;">
-                    <div class="">
-                        <h2>Fecha Ingreso</h2>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Start Date</mat-label>
-                            <input matInput [matDatepicker]="picker1" formControlName="dateStart"
-                                placeholder="Choose a date">
-                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                            <mat-datepicker #picker1></mat-datepicker>
-                        </mat-form-field>
-                    </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Fecha de Salida</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="dateEnd" placeholder="Choose a date">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+            </div>
 
-                    <div class="">
-                        <h2>Fecha Salida</h2>
-                        <mat-form-field appearance="fill">
-                            <mat-label>End Date</mat-label>
-                            <input matInput [matDatepicker]="picker2" formControlName="dateEnd"
-                                placeholder="Choose a date">
-                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                            <mat-datepicker #picker2></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                    <div class=" text-center">
+            <!-- Tipo de Habitación y Cantidad -->
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Tipo de Habitación</mat-label>
+                    <mat-select formControlName="typeRoom">
+                        <mat-option value="">Todas</mat-option>
+                        <mat-option *ngFor="let item of typesRooms" [value]="item.id">{{
+                            item.tipoHabitacion.toUpperCase() }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    Cantidad de Habitaciones
+                </button>
+            </div>
 
-                        <h2>Tipo Habitacion</h2>
-
-                        <mat-form-field style="width: 300px;">
-                            <mat-label>Select</mat-label>
-                            <mat-select formControlName="typeRoom">
-                                <mat-option value="">
-                                    Todas
-                                </mat-option>
-                                @for (item of typesRooms; track $index) {
-                                <mat-option value={{item.id}}>{{item.tipoHabitacion.toUpperCase()}}</mat-option>
-                                }
-                            </mat-select>
-                        </mat-form-field>
-
-                        
-                        <button type="button" class="btn btn-outline-secondary p m-3 mb-4" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                           Cantidad habitaciones
-                        </button>
-                        
-                        
-                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <app-rooms-selector r [roomData]="roomDetails" (roomDataChange)="handleRoomDataChange($event)"></app-rooms-selector>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-50  text-center d-block m-auto">
-                    <div class="">
-                        <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"></ngx-slider>
-                        <div class="d-flex justify-content-between mx-4">
-                            <p>Precio mínimo: {{ minValue | currency:'USD':true }}</p>
-                            <p>Precio máximo: {{ maxValue | currency:'USD':true }}</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="input-group mt-3 justify-content-center">
-                    <button class="btn-sb">Buscar <fa-icon [icon]="faPaperPlane" size="sm"></fa-icon></button>
-                </div>
-            </form>
-
-            <div class="col col-12">
-                <div class="d-flex flex-wrap justify-content-center p-3 gap-2">
-                    <!-- <app-room-card  *ngFor="let room of rooms" [room]="room"  ></app-room-card> -->
-
-                    <app-room-card></app-room-card>
-
+            <!-- Rango de Precios -->
+            <div class="col-12">
+                <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+                    class="w-100"></ngx-slider>
+                <div class="d-flex justify-content-between">
+                    <span>Precio mínimo: {{ minValue | currency:'USD':'symbol' }}</span>
+                    <span>Precio máximo: {{ maxValue | currency:'USD':'symbol' }}</span>
                 </div>
             </div>
 
-            <!-- list item -->
+            <!-- Botón de Buscar -->
+            <div class="col-12">
+                <button class="btn btn-primary w-100">Buscar <fa-icon [icon]="faPaperPlane"
+                        size="sm"></fa-icon></button>
+            </div>
+        </form>
 
-
-
+        <!-- Resultados de las Habitaciones -->
+        <div class="row mt-4">
+            <div class="col-12 d-flex flex-wrap justify-content-center gap-2">
+                <app-room-card *ngFor="let room of rooms" [room]="room"
+                    (selectRoom)="selectRoom($event)"></app-room-card>
+            </div>
         </div>
     </div>
 </section>
-
-
-<!-- 
-<div class="">
-                        <h4>Habitaciones</h4>
-                        <mat-form-field class="mt-2">
-                            <mat-label>Habitaciones</mat-label> 
-                            <mat-select formControlName="habitaciones" required>
-                                <mat-option>--</mat-option>
-                    
-                                <mat-option [value]="1">1</mat-option>
-                                <mat-option [value]="2">2</mat-option>
-                                <mat-option [value]="3">3</mat-option>
-                                <mat-option [value]="4">4</mat-option>
-                            </mat-select>
-                            <mat-error
-                                *ngIf="formdata.controls['habitaciones'].errors && formdata.controls['habitaciones'].invalid && formdata.controls['habitaciones'].touched">
-                                Por favor, elige el número de habitaciones
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-
-                    seleccion de niños y adultos 
-                    <div class="w-100 mt-5 text-center d-flex justify-content-center gap-5">
-                        <mat-form-field>
-                            <mat-label>Adultos</mat-label>
-                            <mat-select formControlName="adultos" required>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
-                                <mat-option value="4">4</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    
-                    
-                        <mat-form-field>
-                            <mat-label>¿niños?</mat-label>
-                            <mat-select formControlName="confirmarNinos" required>
-                                <mat-option [value]="false">No</mat-option>
-                                <mat-option [value]="true">Sí</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    
-                      
-                        <mat-form-field>
-                            <mat-label>Niños</mat-label>
-                            <mat-select formControlName="ninos" [disabled]="!!!formdata.get('confirmarNinos')?.value">
-                                <mat-option value="0">0</mat-option>
-                                <mat-option value="1">1</mat-option>
-                                <mat-option value="2">2</mat-option>
-                                <mat-option value="3">3</mat-option>
-                                <mat-option value="4">4</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
--->

@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\TipoCamaController;
 use App\Http\Middleware\verfiryAdminRol;
@@ -19,8 +20,12 @@ use App\Http\Controllers\ReservacionUsuarioController;
 Route::middleware([VerifyToken::class])->group(function () {
     Route::post("/users", [UsuarioController::class, 'store'])->middleware(verfiryAdminRol::class);
     Route::get('/users', [UsuarioController::class, 'index'])->middleware(verfiryAdminRol::class);
-    Route::post('/habitaciones/filterSearch',[HabitacionController::class,'findBy']);
+    Route::post('/habitaciones/filterSearch', [HabitacionController::class, 'findBy']);
+    Route::get('/habitacion/{id}', [HabitacionController::class, 'show']);
 
+
+
+    
     Route::middleware(VerifyToken::class)->group(function () {
         Route::get('/users/Reservacion', [ReservacionUsuarioController::class, 'index']);
         Route::get('/users/Reservacion/{id}', [ReservacionUsuarioController::class, 'show']);
@@ -30,13 +35,12 @@ Route::middleware([VerifyToken::class])->group(function () {
         Route::delete('/users/Reservacion/{id}', [ReservacionUsuarioController::class, 'destroy']);
     });
 
-    Route::middleware([verifyIdentity::class])->group( function () {
+    Route::middleware([verifyIdentity::class])->group(function () {
         Route::get('/users/{id}', [UsuarioController::class, 'show']);
         Route::put('/users/{id}', [UsuarioController::class, 'update']);
         Route::patch('/users/{id}', [UsuarioController::class, 'partialUpdate']);
         Route::delete('/users/{id}', [UsuarioController::class, 'destroy']);
     });
-
 });
 
 Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function () {
@@ -48,17 +52,17 @@ Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function 
 });
 
 
-Route::resource('/tipoCama', TipoCamaController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);    
-Route::resource('/servicio', ServicioController::class)->middleware([VerifyToken::class,verfiryAdminRol::class]);
-Route::post('/users/edit/{id}',[UsuarioController::class,'update'])->middleware([VerifyToken::class, verfiryAdminRol::class]); 
-Route::post('/users/partial/{id}',[UsuarioController::class, 'partialUpdate'])->middleware([VerifyToken::class, verfiryAdminRol::class]); 
+Route::resource('/tipoCama', TipoCamaController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);
+Route::resource('/servicio', ServicioController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);
+Route::post('/users/edit/{id}', [UsuarioController::class, 'update'])->middleware([VerifyToken::class, verfiryAdminRol::class]);
+Route::post('/users/partial/{id}', [UsuarioController::class, 'partialUpdate'])->middleware([VerifyToken::class, verfiryAdminRol::class]);
 
 Route::get('/habitacion', [HabitacionController::class, 'index']);
 // endpoints para el acceso a habitaciones, protegida solo para administradores
 Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function () {
 
     //Todas las habitaciones si son publicas para un usuario cualquiera
-    Route::get('/habitacion/{id}', [HabitacionController::class, 'show']);
+
     Route::post('/habitacion', [HabitacionController::class, 'store']);
     Route::post('/habitacionEdit/{id}', [HabitacionController::class, 'update']);
     Route::post('/habitacionPartialEdit/{id}', [HabitacionController::class, 'partialUpdate']);
@@ -72,7 +76,7 @@ Route::middleware(verfiryAdminRol::class)->group(function () {
     Route::put('/tipoHabitacion/{id}', [TipoHabitacionController::class, 'update']);
     Route::patch('/tipoHabitacion/{id}', [TipoHabitacionController::class, 'partialUpdate']);
     Route::delete('/tipoHabitacion/{id}', [TipoHabitacionController::class, 'destroy']);
-    Route::get('/tipoHabitacion/alls',[TipoHabitacionController::class,'allTypes']);
+    Route::get('/tipoHabitacion/alls', [TipoHabitacionController::class, 'allTypes']);
 });
 
 // endpoints para el acceso al reservaciones, protegido por un middleware
@@ -86,13 +90,13 @@ Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function 
 });
 
 
-Route::group(['prefix'=> 'auth'], function ($routes) {
-    Route::post('/login',[AuthController::class,'login']);
+Route::group(['prefix' => 'auth'], function ($routes) {
+    Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::get('/me', [AuthController::class,'me'])->middleware(VerifyToken::class);    
-    Route::post('/current', [AuthController::class,'current']);
-    Route::post('/userRol', [AuthController::class,'getRoltoUser']);
+    Route::get('/me', [AuthController::class, 'me'])->middleware(VerifyToken::class);
+    Route::post('/current', [AuthController::class, 'current']);
+    Route::post('/userRol', [AuthController::class, 'getRoltoUser']);
 });
 
 Route::resource('/rol', RolController::class)->middleware(verfiryAdminRol::class);
-Route::patch('/rol', [ RolController::class, 'updatePartial'])->middleware(verfiryAdminRol::class);
+Route::patch('/rol', [RolController::class, 'updatePartial'])->middleware(verfiryAdminRol::class);
