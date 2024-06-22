@@ -40,7 +40,7 @@ class UsuarioController extends Controller
             'apellidos'=>'required|string',
             'correo'=>'required|email|unique:Usuario',
             'nomUsuario'=>'required|unique:Usuario',
-            'contraseña'=>'required',
+            'contrasena'=>'required',
             'rol_id'=> 'required|exists:rol,id',
         ]);
 
@@ -59,7 +59,7 @@ class UsuarioController extends Controller
             'apellidos'=>$request->apellidos,
             'correo'=>$request->correo, 
             'nomUsuario'=>$request->nomUsuario,
-            'contraseña'=> hash("sha256",$request->contraseña),
+            'contrasena'=> hash("sha256",$request->contraseña),
             "rol_id"=> (int)$request->rol_id,
         ]);
 
@@ -110,7 +110,7 @@ class UsuarioController extends Controller
             'apellidos' => '',
             'correo' => 'email|unique:Usuario',
             'nomUsuario' => 'unique:Usuario',
-            'contraseña' => '',
+            'contrasena' => '',
             'rol_id'=>''
         ]);
         if ($validator->fails()) {
@@ -152,7 +152,7 @@ class UsuarioController extends Controller
             'apellidos' => 'required',
             'correo' => 'required|email|unique:Usuario',
             'nomUsuario' => 'required|unique:Usuario',
-            'contraseña' => 'required',
+            'contrasena' => 'required',
             'rol_id'=> 'required|numeric|exists:rol,id'
         ]);
         if ($validator->fails()) {
