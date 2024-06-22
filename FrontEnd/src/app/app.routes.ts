@@ -8,10 +8,12 @@ import { AdminComponent } from './components/admin/admin.component';
 import { authGuard } from './guards/auth.guard';
 import { rolGuard } from './guards/rol.guard';
 import { roomsService } from './services/rooms.service';
-import { ClienteComponent } from './components/admin/cliente/cliente.component';
 import { ReservacionComponent } from './components/admin/reservacion/reservacion.component';
 import { HabitacionComponent } from './components/admin/habitacion/habitacion.component';
 import { RoomsComponent } from './components/home/habitaciones/rooms.component';
+import { ClienteFormComponent } from './components/client-form/client-form.component';
+import { ClienteComponent } from './components/admin/cliente/cliente.component';
+
 export const routes: Routes = [
     {
         path: 'auth',
@@ -34,7 +36,8 @@ export const routes: Routes = [
         children:[
             {path:'cliente',component:ClienteComponent},
             {path:'habitacion',component:HabitacionComponent},
-            {path:'reservacion',component:ReservacionComponent}
+            {path:'reservacion',component:ReservacionComponent},
+            {path:'cliente-info/:id',component:ClienteFormComponent}
         ]
     },
     {

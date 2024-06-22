@@ -1,0 +1,127 @@
+<div class="col-md-12 mt-4">
+  <div class="text-center mt-3">
+    <h3>Editar Cliente</h3>
+  </div>
+
+  <form
+    class="col-md-8 mx-auto mt-4"
+    #editForm="ngForm"
+    (ngSubmit)="onUpdate()"
+  >
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input
+            id="nombre"
+            type="text"
+            #nombre="ngModel"
+            class="form-control"
+            name="nombre"
+            required
+            [(ngModel)]="client.nombre"
+          />
+
+          <label for="cedula">Cedula de Identidad</label>
+          <input
+            id="cedula"
+            type="text"
+            #cedula="ngModel"
+            class="form-control"
+            name="cedula"
+            required
+            [(ngModel)]="client.cedula"
+          />
+
+          <label for="nomUsuario">Nombre de usuario</label>
+          <input
+            id="nomUsuario"
+            type="text"
+            #nomUsuario="ngModel"
+            class="form-control"
+            name="nomUsuario"
+            required
+            [(ngModel)]="client.nomUsuario"
+          />
+
+          <label for="foto">Foto</label>
+          <div class="mb-2">
+            <input
+              id="foto"
+              type="file"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              name="foto"
+            />
+            <img
+              [src]="client.image || '/assets/default_image.png'"
+              alt="Foto"
+              class="img-thumbnail"
+              width="150"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="apellidos">Apellidos</label>
+          <input
+            id="apellidos"
+            type="text"
+            #apellidos="ngModel"
+            class="form-control"
+            name="apellidos"
+            required
+            [(ngModel)]="client.apellidos"
+          />
+
+          <label for="email">Correo Electrónico</label>
+          <input
+            id="email"
+            type="text"
+            #email="ngModel"
+            class="form-control"
+            name="email"
+            required
+            [(ngModel)]="client.correo"
+          />
+
+          <label for="contrasena">Contraseña</label>
+          <input
+            id="contrasena"
+            type="password"
+            #contrasena="ngModel"
+            class="form-control"
+            name="contrasena"
+            required
+            [(ngModel)]="client.contrasena"
+          />
+
+          <label for="rolId">Tipo de rol</label>
+          <select
+            id="rolId"
+            #rolId="ngModel"
+            class="form-control"
+            name="rolId"
+            required
+            [(ngModel)]="client.rol_id"
+          >
+            <option [value]="1">Administrador</option>
+            <option [value]="2">Usuario</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-3">
+      <button
+        type="submit"
+        class="btn btn-success mt-2"
+        [disabled]="editForm.invalid"
+      >
+        Actualizar
+      </button>
+    </div>
+  </form>
+</div>

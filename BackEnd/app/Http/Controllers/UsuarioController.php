@@ -35,6 +35,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'cedula' => 'required|min:9|max:9|unique:Usuario',
             'nombre' => 'required|string',
@@ -58,6 +59,7 @@ class UsuarioController extends Controller
         $infoImage = $this->saveImage($file); // Guardar imagen y obtener información
 
         $user = Usuario::create([
+
             'cedula' => $request->cedula,
             'nombre' => $request->nombre,
             'apellidos' => $request->apellidos,
@@ -165,6 +167,7 @@ class UsuarioController extends Controller
             'contrasena' => 'required',
             'rol_id' => 'required|numeric|exists:rol,id',
             'imagen' => 'image|mimes:jpg,png,jpeg' // Imagen opcional en actualización
+
         ]);
 
         if ($validator->fails()) {
@@ -204,7 +207,7 @@ class UsuarioController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Error, No se encontro al usuaro que se esta buscando',
+                'message' => "Error, No se encontro al usuaro que se esta buscando $id",
                 'status' => 400
             ], 400);
         }

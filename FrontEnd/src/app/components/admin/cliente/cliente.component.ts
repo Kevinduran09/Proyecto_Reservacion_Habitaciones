@@ -5,11 +5,13 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { AdminService } from '../../../services/admin.service';
-import { UserResponse } from '../../../models/user';
+import { UserCreate, UserResponse } from '../../../models/user';
+import { RouterLink } from '@angular/router';
 
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
+import { SweetAlertService } from '../../../services/sweet-alert.service';
 
 
 /**
@@ -18,7 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatDividerModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatDividerModule, MatIconModule, RouterLink],
   templateUrl: './cliente.component.html',
   styleUrl: './cliente.component.css'
 })
@@ -27,10 +29,12 @@ export class ClienteComponent implements AfterViewInit{
   public clientes!: Array<UserResponse>;
   dataSource!: MatTableDataSource<UserResponse>;
 
+public client = new UserCreate('','','','',null,'',''); 
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service:AdminService) {
+  constructor(private service:AdminService, private swal: SweetAlertService) {
 
     this.loadClients();
   }
@@ -58,4 +62,31 @@ export class ClienteComponent implements AfterViewInit{
       this.dataSource.paginator.firstPage();
     }
   }
+
+  async deleteUser(user: UserResponse): Promise<void> {
+    if (await this.swal.showConfirm('Eliminar',`¿Estás seguro de que deseas eliminar el usuario ${user.nombre}?`,'warning')) {
+      try {
+        const response =  this.service.deleteClient(user.id)
+        this.swal.showToast('Se ha eliminado correctamente','success')
+        this.clientes = this.clientes.filter(d => d.id !== user.id);
+        console.log(this.clientes);
+        this.loadClients();
+      } catch (error) {
+        console.error(error)
+      }
+    }
+  }
+  
+  
+  onSubmit() {
+    try {
+      this.service.createClient(this.client);
+      this.loadClients();
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+
+
 }
