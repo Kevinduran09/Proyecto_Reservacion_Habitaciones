@@ -20,7 +20,19 @@ export class ClienteFormComponent implements OnInit {
   faeyeslash = faEyeSlash
   faeye = faEye
   mostrarContrasena = false
-  public client = new User(null, '', '', '', '', null, '', '', '', '', 0);
+  public client:User = {
+    id: null,
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    cedula: '',
+    imagen: null,
+    url: null,
+    public_id: null,
+    nomUsuario: '',
+    contrasena: '',
+    rol_id: null
+  };
   public imagenRender: any
   constructor(private service: AdminService, private route: ActivatedRoute) {
 
@@ -34,7 +46,9 @@ export class ClienteFormComponent implements OnInit {
     })
     try {
       const res = await this.service.getClient(id);
-      this.client = res.User;
+      if (res.User) {
+        this.client = res.User;
+      }
       console.log(res)
     } catch (error) {
       console.error(error);
@@ -44,6 +58,7 @@ export class ClienteFormComponent implements OnInit {
   toggleContrasena(): void {
     this.mostrarContrasena = !this.mostrarContrasena;
   }
+
   onUpdate() {
 
     const formData = new FormData();
@@ -72,13 +87,30 @@ export class ClienteFormComponent implements OnInit {
   }
 
 
-  // onCreate() {
-  //   try {
-  //     this.service.updateClient(this.client);
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
-  // }
+   onCreate() {
+ const formData = new FormData();
+
+    // Añade cada propiedad verificando su tipo
+    formData.append('nombre', this.client.nombre);
+    formData.append('apellidos', this.client.apellidos);
+    formData.append('correo', this.client.correo);
+    formData.append('cedula', this.client.cedula);
+    formData.append('nomUsuario', this.client.nomUsuario);
+    formData.append('contrasena', this.client.contrasena);
+    formData.append('rol_id', this.client.rol_id?.toString() ?? '');
+
+    // Para la imagen, verifica si está presente
+    if (this.client.imagen) {
+      formData.append('imagen', this.client.imagen);
+    }
+
+    console.log(formData)
+    try {
+      this.service.createClient( formData);
+    } catch (error) {
+      console.error(error)
+    }
+ }
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
@@ -93,6 +125,14 @@ export class ClienteFormComponent implements OnInit {
         this.imagenRender = e.target.result;
       };
       reader.readAsDataURL(file);
+    }
+  }
+
+  onsubmit(){
+    if (this.client.id !=null) {
+      this.onUpdate();
+    } else{
+      this.onCreate();
     }
   }
 }
