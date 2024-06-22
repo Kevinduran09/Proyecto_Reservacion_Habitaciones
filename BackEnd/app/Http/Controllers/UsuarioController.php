@@ -188,7 +188,7 @@ class UsuarioController extends Controller
 
         if (!$user) {
             return response()->json([
-                'message' => 'Error, No se encontro al usuaro que se esta buscando',
+                'message' => "Error, No se encontro al usuaro que se esta buscando $id",
                 'status' => 400
             ], 400);
         }

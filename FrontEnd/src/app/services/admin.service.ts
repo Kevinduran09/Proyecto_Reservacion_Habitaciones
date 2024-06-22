@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
-import { UserCreate, UserResponse } from '../models/user';
+import { User, UserCreate, UserResponse } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,7 @@ export class AdminService {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       })
-      return res.data.status
+      return res.data
     } catch (error: any) {
       return error.response.status;
     }
@@ -47,15 +47,14 @@ export class AdminService {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       })
-      return res.data.status
     } catch (error: any) {
       return error.response.status;
     }
   }
 
-  async updateClient(id:number, user:UserResponse){
+  async updateClient(user:User){
     try {
-      const res = await this.auth.put(`/users/${id}`, user, {
+      const res = await this.auth.put(`/users/${user.id}`, user, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }

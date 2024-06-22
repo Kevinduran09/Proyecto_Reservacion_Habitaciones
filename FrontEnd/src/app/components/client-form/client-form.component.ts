@@ -4,37 +4,37 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { AdminService } from '../../../services/admin.service';
-import { UserCreate, UserResponse } from '../../../models/user';
+import { User, UserCreate, UserResponse } from '../../models/user';
 import { RouterLink } from '@angular/router';
+import { AdminService } from '../../services/admin.service';
+import { FormsModule } from '@angular/forms';
 
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
-import { SweetAlertService } from '../../../services/sweet-alert.service';
 
 
 /**
  * @title Data table with sorting, pagination, and filtering.
  */
 @Component({
-  selector: 'app-cliente',
+  selector: 'app-client-form',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatDividerModule, MatIconModule, RouterLink],
-  templateUrl: './cliente.component.html',
-  styleUrl: './cliente.component.css'
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatButtonModule, MatDividerModule, MatIconModule, RouterLink, FormsModule],
+  templateUrl: './client-form.component.html',
+  styleUrl: './client-form.component.css'
 })
-export class ClienteComponent implements AfterViewInit{
+export class ClienteFormComponent implements AfterViewInit{
   displayedColumns: string[] = ['id', 'cedula', 'nombre', 'apellidos', 'correo', 'nomUsuario', 'rol_id', 'Acciones'];
   public clientes!: Array<UserResponse>;
   dataSource!: MatTableDataSource<UserResponse>;
 
-public client = new UserCreate('','','','',null,'',''); 
+public client = new User(0,'','','','',null,'','','','',0); 
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private service:AdminService, private swal: SweetAlertService) {
+  constructor(private service:AdminService) {
 
     this.loadClients();
   }
@@ -54,33 +54,9 @@ public client = new UserCreate('','','','',null,'','');
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
-  async deleteUser(user: UserResponse): Promise<void> {
-    if (await this.swal.showConfirm('Eliminar',`¿Estás seguro de que deseas eliminar el usuario ${user.nombre}?`,'warning')) {
-      try {
-        const response =  this.service.deleteClient(user.id)
-        this.swal.showToast('Se ha eliminado correctamente','success')
-        this.clientes = this.clientes.filter(d => d.id !== user.id);
-        console.log(this.clientes);
-        this.loadClients();
-      } catch (error) {
-        console.error(error)
-      }
-    }
-  }
-  
-  
-  onSubmit() {
+  onUpdate() {
     try {
-      this.service.createClient(this.client);
+      this.service.updateClient(this.client);
       this.loadClients();
     } catch (error) {
       console.error(error)
@@ -88,5 +64,12 @@ public client = new UserCreate('','','','',null,'','');
   }
 
 
-
+  onCreate() {
+    try {
+      this.service.updateClient(this.client);
+      this.loadClients();
+    } catch (error) {
+      console.error(error)
+    }
+  }
 }
