@@ -6,7 +6,8 @@ use App\Models\Reservacion;
 use App\Models\Usuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Cloudinary\Api\Upload\UploadApiResponse;
 
 class UsuarioController extends Controller
 {
@@ -34,39 +35,49 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'cedula'=>'required|min:9|max:9|unique:Usuario',
-            'nombre'=>'required|string',
-            'apellidos'=>'required|string',
-            'correo'=>'required|email|unique:Usuario',
-            'nomUsuario'=>'required|unique:Usuario',
-            'contraseña'=>'required',
-            'rol_id'=> 'required|exists:rol,id',
+        $validator = Validator::make($request->all(), [
+            'cedula' => 'required|min:9|max:9|unique:Usuario',
+            'nombre' => 'required|string',
+            'apellidos' => 'required|string',
+            'correo' => 'required|email|unique:Usuario',
+            'nomUsuario' => 'required|unique:Usuario',
+            'contrasena' => 'required',
+            'rol_id' => 'required|exists:rol,id',
+            'imagen' => 'required|image|mimes:jpg,png,jpeg' // Validar la imagen
         ]);
 
-
-        if($validator->fails()){
+        if ($validator->fails()) {
             return response()->json([
-                'message'=>'Erro al validar los datos',
-                'errors'=>$validator->errors(),
-                'status'=>400
-            ],400);
+                'message' => 'Error al validar los datos',
+                'errors' => $validator->errors(),
+                'status' => 400
+            ], 400);
         }
 
+        $file = $request->file('imagen');
+        $infoImage = $this->saveImage($file); // Guardar imagen y obtener información
+
         $user = Usuario::create([
-            'cedula'=>$request->cedula,
-            'nombre'=>$request->nombre,
-            'apellidos'=>$request->apellidos,
-            'correo'=>$request->correo, 
-            'nomUsuario'=>$request->nomUsuario,
-            'contraseña'=> hash("sha256",$request->contraseña),
-            "rol_id"=> (int)$request->rol_id,
+            'cedula' => $request->cedula,
+            'nombre' => $request->nombre,
+            'apellidos' => $request->apellidos,
+            'correo' => $request->correo,
+            'nomUsuario' => $request->nomUsuario,
+            'contrasena' => hash("sha256", $request->contrasena),
+            'rol_id' => $request->rol_id,
+            'url' => $infoImage["url"], // Guardar URL de la imagen
+            'public_id' => $infoImage["public_id"] // Guardar public_id de Cloudinary
         ]);
 
-        $data = ($user) ? ['usuario'=>$user->load('rol'),'status'=>201] : ['message'=>'Error al crear el registro','status'=>500];
-
-        return response()->json($data, 200);
+        return response()->json([
+            'message' => 'Usuario creado exitosamente',
+            'usuario' => $user->load('rol'),
+            'status' => 201
+        ],
+            201
+        );
     }
+
 
     /**
      * Display the specified resource.
@@ -110,7 +121,7 @@ class UsuarioController extends Controller
             'apellidos' => '',
             'correo' => 'email|unique:Usuario',
             'nomUsuario' => 'unique:Usuario',
-            'contraseña' => '',
+            'contrasena' => '',
             'rol_id'=>''
         ]);
         if ($validator->fails()) {
@@ -138,45 +149,50 @@ class UsuarioController extends Controller
     {
         $user = Usuario::find($id);
 
-        // Validar si el usuario existe 
         if (!$user) {
             return response()->json([
-                'message' => 'Error, No se encontro al usuaro que se esta buscando',
+                'message' => 'Error, No se encontró el usuario',
                 'status' => 400
             ], 400);
         }
-        // validar que vengan todos los atributos requeridos en la request
+
         $validator = Validator::make($request->all(), [
-            'cedula' => 'required|unique:Usuario|min:9',
+            'cedula' => 'required|min:9|unique:Usuario,cedula,' . $id, // Excluir el propio usuario en validación
             'nombre' => 'required',
             'apellidos' => 'required',
-            'correo' => 'required|email|unique:Usuario',
-            'nomUsuario' => 'required|unique:Usuario',
-            'contraseña' => 'required',
-            'rol_id'=> 'required|numeric|exists:rol,id'
+            'correo' => 'required|email|unique:Usuario,correo,' . $id,
+            'nomUsuario' => 'required|unique:Usuario,nomUsuario,' . $id,
+            'contrasena' => 'required',
+            'rol_id' => 'required|numeric|exists:rol,id',
+            'imagen' => 'image|mimes:jpg,png,jpeg' // Imagen opcional en actualización
         ]);
+
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Erro al validar los datos',
+                'message' => 'Error al validar los datos',
                 'errors' => $validator->errors(),
                 'status' => 400
             ], 400);
         }
 
-        $user->cedula = $request->cedula;
-        $user->nombre = $request->nombre;
-        $user->apellidos = $request->apellidos;
-        $user->correo = $request->correo;
-        $user->nomUsuario = $request->nomUsuario;
-        $user->contraseña = $request->contraseña;
+        if ($request->hasFile('imagen')) {
+            if ($user->public_id) {
+                $this->deleteImage($user->public_id); // Eliminar imagen anterior
+            }
+            $infoImage = $this->saveImage($request->file('imagen')); // Subir nueva imagen
+            $user->url = $infoImage["url"];
+            $user->public_id = $infoImage["public_id"];
+        }
 
-        $user->save();
+        $user->update($request->only(['cedula', 'nombre', 'apellidos', 'correo', 'nomUsuario', 'contrasena', 'rol_id']));
 
         return response()->json([
-            'message'=>'Se actualizo el registro del usuario',
-            'user'=> $user->load('rol'),
-            'status'=>200
-        ], 200);
+            'message' => 'Usuario actualizado exitosamente',
+            'usuario' => $user->load('rol'),
+            'status' => 200
+        ],
+            200
+        );
     }
 
     /**
@@ -200,5 +216,18 @@ class UsuarioController extends Controller
             'status' => 200
         ], 200);
     }
-    
+    public function deleteImage($public_id)
+    {
+        Cloudinary::destroy($public_id);
+    }
+    public function saveImage($image)
+    {
+        $uploadedImage = Cloudinary::upload($image->getRealPath(), ['folder' => 'habitaciones']);
+        $url = $uploadedImage->getSecurePath();  //esta es la linea 75
+        $public_id = $uploadedImage->getPublicId();
+        return [
+            'url' => $url,
+            'public_id' => $public_id,
+        ];
+    }
 }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('nomUsuario')->unique();
             $table->string('contrasena');
             $table->unsignedBigInteger('rol_id');
-            $table->foreign('rol_id')->references('id')->on('Rol')->onDelete('cascade');
+            $table->foreign('rol_id')->references('id')->on('Rol')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
 
@@ -31,7 +31,7 @@ return new class extends Migration
             'apellidos'=> 'admin',
             'correo'=> 'admin@gmail.com',
             'nomUsuario'=> 'admin',
-            'contraseña'=> hash("sha256",'admin'),
+            'contrasena'=> hash("sha256",'admin'),
             'rol_id'=> 1,
         ]);
         DB::table('Usuario')->insert([
@@ -40,7 +40,7 @@ return new class extends Migration
             'apellidos' => 'duran martinez',
             'correo' => 'kvdm@gmail.com',
             'nomUsuario' => 'kvdm09',
-            'contraseña' => hash("sha256", '091001'),
+            'contrasena' => hash("sha256", '091001'),
             'rol_id' => 2,
         ]);
 
