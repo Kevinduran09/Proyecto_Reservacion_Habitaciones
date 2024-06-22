@@ -13,7 +13,7 @@ import { HabitacionComponent } from './components/admin/habitacion/habitacion.co
 import { RoomsComponent } from './components/home/habitaciones/rooms.component';
 import { ClienteFormComponent } from './components/client-form/client-form.component';
 import { ClienteComponent } from './components/admin/cliente/cliente.component';
-
+import { HabitacionFormComponent } from './components/habitacion-form/habitacion-form.component';
 export const routes: Routes = [
     {
         path: 'auth',
@@ -37,7 +37,8 @@ export const routes: Routes = [
             {path:'cliente',component:ClienteComponent},
             {path:'habitacion',component:HabitacionComponent},
             {path:'reservacion',component:ReservacionComponent},
-            {path:'cliente-info/:id',component:ClienteFormComponent}
+            {path:'cliente-info/:id',component:ClienteFormComponent},
+            {path:'habitacion-info/:id',component:HabitacionFormComponent}
         ]
     },
     {
