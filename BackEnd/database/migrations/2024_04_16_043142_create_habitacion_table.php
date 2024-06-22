@@ -13,15 +13,26 @@ return new class extends Migration
     {
         Schema::create('Habitacion', function (Blueprint $table) {
             $table->id();
+
+            $table->string('nombre'); // Campo para el nombre de la habitación
+            $table->text('descripcion')->nullable(); // Campo para la descripción de la habitación, opcional
             $table->string('disponibilidad');
             $table->float('precioNoche');
             $table->string('url');
             $table->string('public_id');
             $table->unsignedBigInteger('tipo_habitacion_id');
+            $table->unsignedBigInteger('tipo_cama_id');
+
+            // Claves foráneas
+            $table->foreign('tipo_cama_id')
+                ->references('id')
+                ->on('TipoCama')
+                ->onDelete('cascade');
             $table->foreign('tipo_habitacion_id')
                 ->references('id')
                 ->on('TipoHabitacion')
                 ->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -31,7 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-  
         Schema::dropIfExists('Habitacion');
     }
 };

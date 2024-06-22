@@ -1,4 +1,6 @@
 <?php
+use App\Http\Controllers\ServicioController;
+use App\Http\Controllers\TipoCamaController;
 use App\Http\Middleware\verfiryAdminRol;
 use App\Http\Middleware\VerifyToken;
 use App\Http\Controllers\AuthController;
@@ -36,8 +38,18 @@ Route::middleware([VerifyToken::class])->group(function () {
     });
 
 });
-    
 
+Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function () {
+    Route::patch('tipoCamas/{id}', [TipoCamaController::class, 'partialUpdate']);
+    Route::patch('servicio/{id}', [ServicioController::class, 'partialUpdate']);
+
+    Route::resource('/tipoCama', TipoCamaController::class);
+    Route::resource('/servicio', ServicioController::class);
+});
+
+
+Route::resource('/tipoCama', TipoCamaController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);    
+Route::resource('/servicio', ServicioController::class)->middleware([VerifyToken::class,verfiryAdminRol::class]);
 
 
 Route::get('/habitacion', [HabitacionController::class, 'index']);
