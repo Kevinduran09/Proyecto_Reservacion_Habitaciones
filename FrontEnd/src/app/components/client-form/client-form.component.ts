@@ -5,7 +5,7 @@ import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { User, UserCreate, UserResponse } from '../../models/user';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { AdminService } from '../../services/admin.service';
 import { FormsModule } from '@angular/forms';
 
@@ -24,40 +24,33 @@ import {MatButtonModule} from '@angular/material/button';
   templateUrl: './client-form.component.html',
   styleUrl: './client-form.component.css'
 })
-export class ClienteFormComponent implements AfterViewInit{
-  displayedColumns: string[] = ['id', 'cedula', 'nombre', 'apellidos', 'correo', 'nomUsuario', 'rol_id', 'Acciones'];
-  public clientes!: Array<UserResponse>;
-  dataSource!: MatTableDataSource<UserResponse>;
+export class ClienteFormComponent implements OnInit{
 
 public client = new User(0,'','','','',null,'','','','',0); 
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  constructor(private service:AdminService, private route:ActivatedRoute) {
 
-  constructor(private service:AdminService) {
-
-    this.loadClients();
   }
 
-  async loadClients(){
+
+  async ngOnInit(){
+    let id: number = 0
+    this.route.params.subscribe(params => {
+      id = params['id']
+    })
     try{
-      const res = await this.service.getClients();
-      this.clientes = res;
-      this.dataSource = new MatTableDataSource(this.clientes);
+      const res = await this.service.getClient(id);
+      this.client = res;
+      console.log(res)
     }catch(error) {
       console.error(error);
     }
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
   onUpdate() {
+    console.log(this.client)
     try {
       this.service.updateClient(this.client);
-      this.loadClients();
     } catch (error) {
       console.error(error)
     }
@@ -67,9 +60,19 @@ public client = new User(0,'','','','',null,'','','','',0);
   onCreate() {
     try {
       this.service.updateClient(this.client);
-      this.loadClients();
     } catch (error) {
       console.error(error)
+    }
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.client.image = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 }

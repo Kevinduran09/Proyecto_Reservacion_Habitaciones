@@ -6,13 +6,13 @@ export class UserCreate{
         public cedula:string,
         public image:File|null,
         public nomUsuario:string,
-        public contraseña:string
+        public contrasena:string
     ){}
 }
 export class UserLogin{
     constructor(
         public nomUsuario:string,
-        public contraseña:string
+        public contrasena:string
     ){}
 }
 export class UserResponse{
@@ -39,7 +39,7 @@ export class User{
         public url:string|null,
         public public_id: string|null,
         public nomUsuario:string,
-        public contraseña:string,
+        public contrasena:string,
         public rol_id:number|null
     ){}
 }

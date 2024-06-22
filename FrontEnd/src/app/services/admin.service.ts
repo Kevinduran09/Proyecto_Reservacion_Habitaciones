@@ -63,6 +63,18 @@ export class AdminService {
     } catch (error: any) {
       return error.response.status;
     }
+  }
 
+  async getClient(id:number) {
+    try {
+      const res = await this.auth.get(`/users/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      })
+      return res.data
+    } catch (error: any) {
+      return error.response.status;
+    }
   }
 }
