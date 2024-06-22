@@ -4,7 +4,7 @@ export class UserCreate{
         public apellidos:string,
         public correo:string,
         public cedula:string,
-        public image:File|null,
+        public imagen:File|null,
         public nomUsuario:string,
         public contrasena:string
     ){}
@@ -35,7 +35,7 @@ export class User{
         public apellidos:string,
         public correo:string,
         public cedula:string,
-        public image:File|null,
+        public imagen:File|null,
         public url:string|null,
         public public_id: string|null,
         public nomUsuario:string,

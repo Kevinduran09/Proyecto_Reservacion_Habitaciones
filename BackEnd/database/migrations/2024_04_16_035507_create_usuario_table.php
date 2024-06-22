@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('correo')->unique();
             $table->string('nomUsuario')->unique();
             $table->string('contrasena');
+            $table->text('url');
+            $table->text('public_id');
             $table->unsignedBigInteger('rol_id');
             $table->foreign('rol_id')->references('id')->on('Rol')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();

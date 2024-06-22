@@ -50,7 +50,8 @@ Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function 
 
 Route::resource('/tipoCama', TipoCamaController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);    
 Route::resource('/servicio', ServicioController::class)->middleware([VerifyToken::class,verfiryAdminRol::class]);
-
+Route::post('/users/edit/{id}',[UsuarioController::class,'update'])->middleware([VerifyToken::class, verfiryAdminRol::class]); 
+Route::post('/users/partial/{id}',[UsuarioController::class, 'partialUpdate'])->middleware([VerifyToken::class, verfiryAdminRol::class]); 
 
 Route::get('/habitacion', [HabitacionController::class, 'index']);
 // endpoints para el acceso a habitaciones, protegida solo para administradores

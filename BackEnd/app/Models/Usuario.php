@@ -19,6 +19,8 @@ class Usuario extends Model
         'correo',
         'nomUsuario',
         'contrasena',
+        'url',
+        'public_id',
         'rol_id'
     ];
 

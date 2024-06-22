@@ -7,6 +7,7 @@
     class="col-md-8 mx-auto mt-4"
     #editForm="ngForm"
     (ngSubmit)="onUpdate()"
+    enctype="multipart/form-data"
   >
     <div class="row">
       <div class="col-md-6">
@@ -54,10 +55,10 @@
               name="foto"
             />
             <img
-              [src]="client.image || '/assets/default_image.png'"
+              [src]="imagenRender || client.url"
               alt="Foto"
               class="img-thumbnail"
-              width="150"
+              width="300"
             />
           </div>
         </div>
