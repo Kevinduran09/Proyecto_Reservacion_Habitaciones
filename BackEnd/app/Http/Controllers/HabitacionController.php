@@ -82,7 +82,7 @@ class HabitacionController extends Controller
 
         return response()->json([
             'message' => "Se encontró la habitación con la id: {$id}",
-            'habitacion' => $habitacion->load('tipoHabitacion'),
+            'habitacion' => $habitacion->load(['tipoHabitacion','tipoCama','servicios']),
             'status' => 200
         ], 200);
     }

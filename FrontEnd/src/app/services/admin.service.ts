@@ -27,7 +27,7 @@ export class AdminService {
     }
   }
 
-  async createClient(user:UserCreate) {
+  async createClient(user:FormData) {
     try {
       const res = await this.auth.post('/users', user, {
         headers: {
@@ -52,9 +52,9 @@ export class AdminService {
     }
   }
 
-  async updateClient(user:User){
+  async updateClient(id:number|null,data:FormData){
     try {
-      const res = await this.auth.put(`/users/${user.id}`, user, {
+      const res = await this.auth.post(`/users/edit/${id}`, data, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }

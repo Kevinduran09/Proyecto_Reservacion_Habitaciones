@@ -225,7 +225,7 @@ class UsuarioController extends Controller
     }
     public function saveImage($image)
     {
-        $uploadedImage = Cloudinary::upload($image->getRealPath(), ['folder' => 'habitaciones']);
+        $uploadedImage = Cloudinary::upload($image->getRealPath(), ['folder' => 'usuarios']);
         $url = $uploadedImage->getSecurePath();  //esta es la linea 75
         $public_id = $uploadedImage->getPublicId();
         return [

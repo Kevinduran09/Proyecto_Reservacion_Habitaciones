@@ -1,7 +1,8 @@
 import { Component, inject, Input } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faHouse, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faHouse,faRightFromBracket , faBars,faGear,faUser, faBed,faBook,faCopy,faBellConcierge} from '@fortawesome/free-solid-svg-icons';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 
 @Component({
@@ -14,5 +15,17 @@ import { RouterLink } from '@angular/router';
 export class NavbarComponent {
   faHouse = faHouse;
   faBars = faBars
+  faGear = faGear
+  faBed=faBed
+  faUser=faUser
+  faBook=faBook
+  faCopy=faCopy
+  faBellConcierge = faBellConcierge
+  faRightFromBracket = faRightFromBracket
+  constructor(private service:AuthService){}
+
+  logout(){
+    this.service.logout()
+  }
 
 }

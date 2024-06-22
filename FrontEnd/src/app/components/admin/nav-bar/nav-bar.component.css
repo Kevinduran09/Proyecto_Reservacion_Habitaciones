@@ -1,9 +1,67 @@
 .sidebar {
-    background-color: red;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(to top, rgba(30, 35, 38, .1), rgba(30, 35, 38, .6)), url('../../../../assets/images/Layout_login.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
     height: 100vh;
-    border-radius: 0 20px 20px 0;
+    /* border-radius: 0 20px 20px 0; */
     -webkit-box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
     -moz-box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
     box-shadow: 10px 10px 29px -10px rgba(0, 0, 0, 0.71);
     width: 300px;
+}
+
+.header {
+    width: 100%;
+    flex-shrink: 0;
+   background-color: rgba(0, 0, 0, .4);
+    box-shadow: 0px 23px 49px -4px rgba(0, 0, 0, 0.53);
+}
+
+.header span {
+    white-space: nowrap;
+}
+
+.content {
+    width: 100%;
+
+    flex-grow: 1;
+    overflow-y: auto;
+
+}
+
+.content ul {
+
+    padding: 0;
+    display: block;
+    margin: 0 !important;
+    list-style: none;
+}
+
+.content ul li a {
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    text-decoration: none;
+    color: #d7c9c9;
+    white-space: nowrap;
+
+}
+
+.content ul li {
+
+    font-weight: 400;
+    transition: all .2s ease-in-out .1s;
+}
+
+.content ul li:hover,
+.content ul li a:hover {
+    background-color: rgba(0, 0, 0, .3)
+}
+
+.footer {
+    border-top: 2px solid rgba(134, 123, 123, 0.524);
 }

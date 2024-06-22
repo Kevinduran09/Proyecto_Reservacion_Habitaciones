@@ -1,42 +1,47 @@
 <div class="card m-1 shadow" style="border: none; max-width: 350px;">
     <div class="content-img">
-        <img src="https://res.cloudinary.com/dkaghsmad/image/upload/v1715829237/habitaciones/glytnx8slzgaljdcgbme.jpg"
-            class="img-fluid rounded-top" alt="" />
-        <span class="info-status">
-            Disponible
-        </span>
+        <img src="{{ room.url || 'https://res.cloudinary.com/dkaghsmad/image/upload/v1715830826/habitaciones/o0exemloyuqbfmtk76lp.jpg'}}"
+            class="img-fluid rounded-top" alt="Imagen de la habitación" />
+        <span class="info-status">{{room.disponibilidad}}</span>
     </div>
     <div class="card-body">
         <div class="content">
-            <span class="fw-medium d-block fs-5" style="color: #088baf;">Nombre de la habitacion</span>
-            <div class="d-flex align-items-center gap-5 p-2">
+            <span class="fw-medium d-block fs-5" style="color: #088baf;">{{room.nombre}}</span>
+            
+            <!-- info  -->
+            <div class="d-flex align-items-center gap-5 p-2 text-nowrap ">
                 <div>
                     <span class="mt-2 d-block">Capacidad</span>
-                   <div class="d-flex align-items-center">
-                    <fa-icon [icon]="faperson"   size="lg"></fa-icon>
-                    <span class="text-secondary ms-2">N Personas</span>
-                   </div>
+                    <div class="d-flex align-items-center">
+                        <fa-icon [icon]='faperson' size="lg"></fa-icon>
+                        <span class="text-secondary ms-2">{{room.tipo_habitacion.capacidad}} Personas</span>
+                    </div>
                 </div>
                 <div>
                     <span class="mt-2 d-block">Tipo Cama</span>
                     <div class="d-flex align-items-center">
                         <fa-icon [icon]="fabed" size="lg"></fa-icon>
-                        <span class="text-secondary ms-2">Cama doble</span>
+                        <span class="text-secondary ms-2">{{room.tipo_cama.tipo}}</span>
                     </div>
                 </div>
             </div>
-            
-            <!-- <p class="text-secondary p-2">Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                                    Officia omnis maxime est facilis hic recusandae, consectetur tempora obcaecati
-                                    neque, laudantium optio sed doloribus tenetur maiores totam tempore magnam
-                                    reiciendis veniam?</p> -->
-
-            <div class="d-flex justify-content-between align-items-center mt-5">
-                <span class="fs-4">$ 200</span>
-
-                <button class="btn-sb p-2 py-2" style="height: inherit;">Reservar</button>
+            <!-- servicios -->
+            <div class="services d-flex flex-wrap mt-2">
+                <ng-container *ngFor="let servicio of room.servicios">
+                    <div class="service-icon mx-2">
+                        <fa-icon [icon]="faBellConcierge" size="sm"></fa-icon>
+                        <span>{{ servicio.nombre }}</span>
+                    </div>
+                </ng-container>
             </div>
 
+            <div class=" w-100 text-center p-2 mt-3">
+                <span><a class="text-decoration-none text-secondary" [routerLink]="['/room-detail',room.id]" >Más detalles...</a></span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="fs-4">${{room.precioNoche}}</span>
+                <button (click)="onRoomSelected()" class="btn-sb p-2 py-2" style="height: inherit;">Reservar</button>
+            </div>
         </div>
     </div>
 </div>

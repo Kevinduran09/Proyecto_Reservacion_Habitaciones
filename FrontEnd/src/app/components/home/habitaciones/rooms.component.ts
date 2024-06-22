@@ -19,6 +19,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NgxSliderModule, Options } from '@angular-slider/ngx-slider';
 import { RoomCardComponent } from '../../room-card/room-card.component';
 import { RoomSelectorComponent } from '../../rooms-selector/rooms-selector.component';
+import { ReservationService } from '../../../services/reservation.service';
 
 @Component({
   selector: 'app-form-rooms',
@@ -47,7 +48,8 @@ export class RoomsComponent implements OnInit {
     private service: roomsService,
     private auth: AuthService,
     private swal: SweetAlertService,
-    private router: Router
+    private router: Router,
+    private reservationService: ReservationService
   ) {
     this.isAuth = false
   }
@@ -62,15 +64,7 @@ export class RoomsComponent implements OnInit {
       maxValue: [300, Validators.required],
 
     })
-
-    this.formdata.get('confirmarNinos')?.valueChanges.subscribe((value) => {
-      if (value === true) {
-        this.formdata.get('ninos')?.enable();
-      } else {
-        this.formdata.get('ninos')?.disable();
-      }
-    });
-    
+    this.loadRoomDetail()
 
     try {
       this.typesRooms = await this.service.getTypes()
@@ -84,10 +78,22 @@ export class RoomsComponent implements OnInit {
     }
   }
   handleRoomDataChange(event: any) {
-    console.log('Datos de Room Selector:', event);
-    // Aquí puedes manejar los datos recibidos del componente hijo
+    this.roomDetails = event
+    console.log(this.roomDetails.rooms.length);
+    
+    this.reservationService.setTotalRoomsNeeded(this.roomDetails )
+    console.log('Updated room details:', this.roomDetails);
+    this.reservationService.currentReservationState.subscribe(state => {
+      console.log('Current state:', state);
+    })
+
   }
 
+  loadRoomDetail() {
+    this.reservationService.currentReservationState.subscribe(state => {
+      this.roomDetails = state.roomsDetails || [];
+    })
+  }
 
   async onsubmit() {
     if (!this.isAuth) {
@@ -124,8 +130,7 @@ export class RoomsComponent implements OnInit {
         minValue: minValue,
         maxValue: maxValue,
       });
-      console.log(this.rooms);
-      
+
       if (this.rooms.length === 0) {
         this.swal.showAlert({
           title: 'No se encontraron habitaciones',
@@ -142,5 +147,18 @@ export class RoomsComponent implements OnInit {
       });
     }
   }
+
+  selectRoom(room: any) {
+    this.reservationService.addRoomSelection(room);
+    console.log('Room selected:', room);
+    console.log(this.reservationService.getCurrentSelections())
+
+
+    this.reservationService.currentReservationState.subscribe(state => {
+      console.log('Current state:', state);
+    })
+
+  }
+
 }
 // 
