@@ -33,4 +33,17 @@ export class roomsService{
             
         }
     }
+
+    async getRoom(id:number) {
+        try {
+          const res = await this.roomsApi.get(`/users/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+          return res.data
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
 }
