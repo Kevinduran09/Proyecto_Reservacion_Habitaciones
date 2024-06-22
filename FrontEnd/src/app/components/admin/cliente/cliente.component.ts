@@ -58,4 +58,6 @@ export class ClienteComponent implements AfterViewInit{
       this.dataSource.paginator.firstPage();
     }
   }
+
+  
 }
