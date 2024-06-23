@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
+import { Service } from '../models/service';
 
 @Injectable({
   providedIn: 'root'
@@ -52,9 +53,9 @@ export class ServiceAdminService {
     }
   }
 
-  async updateService(id: number | null, data: FormData) {
+  async updateService(id: number | null, data: Service) {
     try {
-      const res = await this.auth.put(`/servicio/${id}`, data, {
+      const res = await this.auth.post(`/servicio/${id}`, data, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
