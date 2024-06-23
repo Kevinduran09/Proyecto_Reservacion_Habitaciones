@@ -1,100 +1,133 @@
 import { Injectable } from "@angular/core";
 import axios, { AxiosInstance } from "axios";
 import { filterRoom } from "../models/rooms";
+
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class roomsService{
-    roomsApi:AxiosInstance
+export class roomsService {
+  roomsApi: AxiosInstance
 
-    constructor(){
-        this.roomsApi = axios.create({
-            baseURL:'http://127.0.0.1:8000/api'
-        })
+  constructor() {
+    this.roomsApi = axios.create({
+      baseURL: 'http://127.0.0.1:8000/api'
+    })
+  }
+
+  async getDisponibilidad(): Promise<any[]> {
+    try {
+      const response = await this.roomsApi.get('/disponibilidad');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching disponibilidad:', error);
+      throw error;
     }
+  }
 
-    async getTypes(){
-        try {
-            const res = await this.roomsApi.get('/tipoHabitacion');
-            return res.data
-        } catch (error) {
-            console.log(error);    
-        }
+  async getTipoHabitaciones(): Promise<any[]> {
+    try {
+      const response = await this.roomsApi.get('/tipo_habitaciones');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tipo_habitaciones:', error);
+      throw error;
     }
-    async getFilterRooms(formData:filterRoom){
-        try {
-            const res = await this.roomsApi.post('habitaciones/filterSearch',formData,{
-                headers:{
-                    'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-                }
-            })
-            return res.data
-        } catch (error) {
-            
-        }
+  }
+
+  async getTipoCamas(): Promise<any[]> {
+    try {
+      const response = await this.roomsApi.get('/tipo_camas');
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching tipo_camas:', error);
+      throw error;
     }
+  }
 
-    async getRooms() {
-        try {
-          const res = await this.roomsApi.get('/habitacion', {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-            }
-          })
-          return res.data
-        } catch (error: any) {
-          return error.response.status;
-        }
-      }
-    
-      async getRoom(id:number) {
-        try {
-          const res = await this.roomsApi.get(`/habitacion/${id}`, {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-            }
-          })
-          return res.data
-        } catch (error: any) {
-          return error.response.status;
-        }
-      }
+  async getTypes() {
+    try {
+      const res = await this.roomsApi.get('/tipoHabitacion');
+      return res.data
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
-      async deleteRoom(id:number){
-        try {
-          const res = await this.roomsApi.delete(`/habitacion/${id}`, {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-            }
-          })
-        } catch (error: any) {
-          return error.response.status;
+  async getFilterRooms(formData: filterRoom) {
+    try {
+      const res = await this.roomsApi.post('habitaciones/filterSearch', formData, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
-      }
+      })
+      return res.data
+    } catch (error) {
+      console.error('Error fetching filtered rooms:', error);
+      throw error;
+    }
+  }
 
-      async updateRoom(id:number|null,data:FormData){
-        try {
-          const res = await this.roomsApi.post(`/habitacion/edit/${id}`, data, {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-            }
-          })
-          return res.data.status
-        } catch (error: any) {
-          return error.response.status;
+  async getRooms() {
+    try {
+      const res = await this.roomsApi.get('/habitacion', {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
-      }
+      })
+      return res.data
+    } catch (error: any) {
+      return error.response.status;
+    }
+  }
 
-      async createRoom(room:FormData) {
-        try {
-          const res = await this.roomsApi.post('/habbitacion', room, {
-            headers: {
-              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
-            }
-          })
-          return res.data
-        } catch (error: any) {
-          return error.response.status;
+  async getRoom(id: number) {
+    try {
+      const res = await this.roomsApi.get(`/habitacion/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
-      }
+      })
+      return res.data
+    } catch (error: any) {
+      return error.response.status;
+    }
+  }
+
+  async deleteRoom(id: number) {
+    try {
+      await this.roomsApi.delete(`/habitacion/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      })
+    } catch (error: any) {
+      return error.response.status;
+    }
+  }
+
+  async updateRoom(id: number | null, data: FormData) {
+    try {
+      const res = await this.roomsApi.post(`/habitacion/edit/${id}`, data, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      })
+      return res.data.status
+    } catch (error: any) {
+      return error.response.status;
+    }
+  }
+
+  async createRoom(room: FormData) {
+    try {
+      const res = await this.roomsApi.post('/habitacion', room, {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      })
+      return res.data
+    } catch (error: any) {
+      return error.response.status;
+    }
+  }
 }
