@@ -7,6 +7,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { roomsService } from '../../services/rooms.service';
+import { SweetAlertService } from '../../services/sweet-alert.service';
 
 @Component({
   selector: 'app-habitacion-form',
@@ -44,7 +45,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
   public tipoCamas: any[] = [];
 
   public imagenRender: any;
-  constructor(private service: roomsService, private route: ActivatedRoute) { }
+  constructor(private service: roomsService, private swal: SweetAlertService, private route: ActivatedRoute) { }
 
   onCreate() {
     const formData = new FormData();
@@ -65,6 +66,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     console.log(formData)
     try {
       this.service.createRoom(formData);
+      this.swal.showToast('Habitacion creada correctamente', 'success');
     } catch (error) {
       console.error(error)
     }
@@ -89,6 +91,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     console.log(formData)
     try {
       this.service.updateRoom(this.Room.id, formData);
+      this.swal.showToast('Habitacion actualizada correctamente', 'success');
     } catch (error) {
       console.error(error)
     }
