@@ -222,9 +222,12 @@ class HabitacionController extends Controller
                 'status' => 400
             ], 400);
         }
-
-        if ($request->hasFile('imagen')) {
+        if($request->public_id){
             $this->deleteImage($habitacion->public_id);
+        }
+        if ($request->hasFile('imagen')) {
+
+            
             $infoImage = $this->saveImage($request->file('imagen'));
             $habitacion->url = $infoImage["url"];
             $habitacion->public_id = $infoImage["public_id"];

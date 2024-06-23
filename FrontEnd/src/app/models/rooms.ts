@@ -21,6 +21,7 @@ export interface room {
     tipo_habitacion_id: number;
     tipo_cama_id: number;
     tipo_habitacion: typeRoom;
+    imagen:File|null
     tipo_cama: typeBed;
     servicios: services[];
 }

@@ -5,139 +5,73 @@
       <div class="text-center mb-4">
         <h3 class="text-white display-3">Formulario de Habitaciones</h3>
       </div>
-      <form
-        class="text-white"
-        #habitacionForm="ngForm"
-        (ngSubmit)="onsubmit()"
-        enctype="multipart/form-data"
-      >
-        <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input
-            id="nombre"
-            type="text"
-            #nombre="ngModel"
-            class="form-control"
-            name="nombre"
-            required
-            [(ngModel)]="Room.nombre"
-          />
+      <div class="row w-100 d-flex">
+        <form class="text-white" #habitacionForm="ngForm" (ngSubmit)="onsubmit()" enctype="multipart/form-data">
 
-          <label for="descripcion">Descripcion</label>
-          <input
-            id="descripcion"
-            type="text"
-            #descripcion="ngModel"
-            class="form-control"
-            name="descripcion"
-            required
-            [(ngModel)]="Room.descripcion"
-          />
+          <div class="col col-6">
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input id="nombre" type="text" #nombre="ngModel" class="form-control" name="nombre" required
+                [(ngModel)]="Room.nombre" />
 
-          <label for="disponibilidad">Disponibilidad de la habitacion</label>
-          <select
-            id="disponibilidad"
-            #disponibilidad="ngModel"
-            class="form-control"
-            name="disponibilidad"
-            required
-            [(ngModel)]="Room.disponibilidad"
-          >
-            <option
-              *ngFor="let disponibilidad of disponibilidades"
-              [value]="disponibilidad.id"
-            >
-              {{ disponibilidad.nombre }}
-            </option>
-          </select>
+              <label for="descripcion">Descripcion</label>
+              <input id="descripcion" type="text" #descripcion="ngModel" class="form-control" name="descripcion"
+                required [(ngModel)]="Room.descripcion" />
 
-          <label for="precioNoche">Precio de habitacion por Noche</label>
-          <input
-            id="precioNoche"
-            type="text"
-            #precioNoche="ngModel"
-            class="form-control"
-            name="precioNoche"
-            required
-            [(ngModel)]="Room.precioNoche"
-          />
 
-          <label for="url">Foto de la habitacion</label>
-          <div class="mb-2">
-            <input
-              id="url"
-              type="file"
-              (change)="onFileSelected($event)"
-              class="form-control"
-              name="url"
-            />
+              <label for="precioNoche">Precio de habitacion por Noche</label>
+              <input id="precioNoche" type="text" #precioNoche="ngModel" class="form-control" name="precioNoche"
+                required [(ngModel)]="Room.precioNoche" />
+
+              <label for="url">Foto de la habitacion</label>
+              <div class="mb-2">
+                <input id="url" type="file" (change)="onFileSelected($event)" class="form-control" name="url" />
+              </div>
+            </div>
           </div>
 
-          <label for="public_id">Tipo de habitacion</label>
-          <select
-            id="public_id"
-            #public_id="ngModel"
-            class="form-control"
-            name="public_id"
-            required
-            [(ngModel)]="Room.public_id"
-          >
-            <option
-              *ngFor="let tipoHabitacion of tipoHabitaciones"
-              [value]="tipoHabitacion.id"
-            >
-              {{ tipoHabitacion.nombre }}
-            </option>
-          </select>
+          <div class="col col-6">
+            <label for="tipohabitacion">Tipo de habitacion</label>
+            <select id="tipohabitacion" #tipohabitacion="ngModel" class="form-control" name="tipohabitacion" required
+              [(ngModel)]="Room.tipo_habitacion_id">
+              <option *ngFor="let tipoHabitacion of tipoHabitaciones" [value]="tipoHabitacion.id">
+                {{ tipoHabitacion.tipoHabitacion }}
+              </option>
+            </select>
 
-          <label for="tipo_cama">Tipo de cama</label>
-          <select
-            id="tipo_cama"
-            #tipo_cama="ngModel"
-            class="form-control"
-            name="tipo_cama"
-            required
-            [(ngModel)]="Room.tipo_cama"
-          >
-            <option *ngFor="let tipoCama of tipoCamas" [value]="tipoCama.id">
-              {{ tipoCama.nombre }}
-            </option>
-          </select>
-        </div>
+            <label for="tipo_cama">Tipo de cama</label>
+            <select id="tipo_cama" #tipo_cama="ngModel" class="form-control" name="tipo_cama" required
+              [(ngModel)]="Room.tipo_cama_id">
+              <option *ngFor="let tipoCama of tipoCamas" [value]="tipoCama.id">
+                {{ tipoCama.tipo }}
+              </option>
+            </select>
+          </div>
 
-        <div class="text-center mt-3">
-          <ng-container *ngIf="Room.id != null; else addButton">
-            <button
-              type="submit"
-              class="btn btn-success mt-2"
-              [disabled]="habitacionForm.invalid"
-            >
-              Actualizar
-            </button>
-          </ng-container>
-          <ng-template #addButton>
-            <button
-              type="submit"
-              class="btn btn-success mt-2"
-              [disabled]="habitacionForm.invalid"
-            >
-              Agregar
-            </button>
-          </ng-template>
-        </div>
-      </form>
+
+
+          <div class="text-center mt-3">
+            <ng-container *ngIf="Room.id != null; else addButton">
+              <button type="submit" class="btn btn-success mt-2" [disabled]="habitacionForm.invalid">
+                Actualizar
+              </button>
+            </ng-container>
+            <ng-template #addButton>
+              <button type="submit" class="btn btn-success mt-2" [disabled]="habitacionForm.invalid">
+                Agregar
+              </button>
+            </ng-template>
+          </div>
+        </form>
+      </div>
+
     </div>
 
     <!-- Sección de Imagen del Usuario -->
     <div class="image-container" *ngIf="imagenRender || Room.url">
       <div class="text-center">
         <h4 class="text-white">Imagen del Usuario</h4>
-        <img
-          [src]="imagenRender || Room.url"
-          alt="Foto del Usuario"
-          class="img-thumbnail"
-          style="max-width: 300px"
-        />
+        <img [src]="imagenRender || Room.url" alt="Foto del Usuario" class="img-thumbnail" style="max-width: 300px" />
       </div>
     </div>
   </div>
