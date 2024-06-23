@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
+import { RoomType } from '../models/roomType';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class RoomTypesAdminService {
     }
   }
 
-  async deleteRoomType(id: number) {
+  async deleteRoomType(id: number|null) {
     try {
       const res = await this.auth.delete(`/tipoHabitacion/${id}`, {
         headers: {
@@ -52,9 +53,9 @@ export class RoomTypesAdminService {
     }
   }
 
-  async updateRoomType(id: number | null, data: FormData) {
+  async updateRoomType(id: number | null, data: RoomType) {
     try {
-      const res = await this.auth.put(`/tipoHabitacion/${id}`, data, {
+      const res = await this.auth.post(`/habitacionPartialEdit/${id}`, data, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }

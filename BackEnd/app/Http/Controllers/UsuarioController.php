@@ -159,15 +159,13 @@ class UsuarioController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'cedula' => 'required|min:9|unique:Usuario,cedula,' . $id, // Excluir el propio usuario en validación
             'nombre' => 'required',
             'apellidos' => 'required',
             'correo' => 'required|email|unique:Usuario,correo,' . $id,
             'nomUsuario' => 'required|unique:Usuario,nomUsuario,' . $id,
             'contrasena' => 'required',
             'rol_id' => 'required|numeric|exists:rol,id',
-            'imagen' => 'image|mimes:jpg,png,jpeg' // Imagen opcional en actualización
-
+            'imagen' => 'image|mimes:jpg,png,jpeg'
         ]);
 
         if ($validator->fails()) {
@@ -187,7 +185,7 @@ class UsuarioController extends Controller
             $user->public_id = $infoImage["public_id"];
         }
 
-        $user->update($request->only(['cedula', 'nombre', 'apellidos', 'correo', 'nomUsuario', 'contrasena', 'rol_id']));
+        $user->update($request->only(['nombre', 'apellidos', 'correo', 'nomUsuario', 'contrasena', 'rol_id']));
 
         return response()->json([
             'message' => 'Usuario actualizado exitosamente',

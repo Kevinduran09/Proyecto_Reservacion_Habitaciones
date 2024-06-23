@@ -13,8 +13,7 @@ use App\Http\Controllers\TipoHabitacionController;
 use App\Http\Middleware\verifyIdentity;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservacionUsuarioController;
-
-
+use App\Models\TipoHabitacion;
 
 // endopoint para acceso a usuarios publico
 Route::middleware([VerifyToken::class])->group(function () {
@@ -22,9 +21,6 @@ Route::middleware([VerifyToken::class])->group(function () {
     Route::get('/users', [UsuarioController::class, 'index'])->middleware(verfiryAdminRol::class);
     Route::post('/habitaciones/filterSearch', [HabitacionController::class, 'findBy']);
     Route::get('/habitacion/{id}', [HabitacionController::class, 'show']);
-
-
-
     
     Route::middleware(VerifyToken::class)->group(function () {
         Route::get('/users/Reservacion', [ReservacionUsuarioController::class, 'index']);
@@ -47,12 +43,12 @@ Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function 
     Route::patch('tipoCamas/{id}', [TipoCamaController::class, 'partialUpdate']);
     Route::patch('servicio/{id}', [ServicioController::class, 'partialUpdate']);
     Route::post('servicio/{id}', [ServicioController::class, 'update']);
-    
+    Route::post('tipoHabitacion/{id}', [TipoHabitacionController::class, 'update']);
+    Route::post('tipoCama/{id}', [TipoCamaController::class, 'update']);
 
     Route::resource('/tipoCama', TipoCamaController::class);
     Route::resource('/servicio', ServicioController::class);
 });
-
 
 Route::resource('/tipoCama', TipoCamaController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);
 Route::resource('/servicio', ServicioController::class)->middleware([VerifyToken::class, verfiryAdminRol::class]);
@@ -90,7 +86,6 @@ Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function 
     Route::patch('/reservacion/{id}', [ReservacionController::class, 'partialUpdate']);
     Route::delete('/reservacion/{id}', [ReservacionController::class, 'destroy']);
 });
-
 
 Route::group(['prefix' => 'auth'], function ($routes) {
     Route::post('/login', [AuthController::class, 'login']);

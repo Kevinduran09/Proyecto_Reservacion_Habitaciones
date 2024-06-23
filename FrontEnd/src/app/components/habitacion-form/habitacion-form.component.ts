@@ -17,7 +17,7 @@ import { roomsService } from '../../services/rooms.service';
 })
 export class HabitacionFormComponent implements OnInit { // Implementar OnInit
   public Room: room = {
-    id: 0,
+    id: null,
     nombre: '',
     descripcion: '',
     disponibilidad: '',
@@ -48,7 +48,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
 
   onCreate() {
     const formData = new FormData();
-   
+
     formData.append('nombre', this.Room.nombre);
     formData.append('descripcion', this.Room.descripcion);
     formData.append('disponibilidad', this.Room.disponibilidad);
@@ -57,11 +57,11 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     formData.append('public_id', this.Room.tipo_habitacion?.toString() ?? '');
     formData.append('tipo_habitacion_id', this.Room.tipo_habitacion_id?.toString() ?? '');
     formData.append('tipo_cama_id', this.Room.tipo_cama_id?.toString() ?? '');
-   
-    if (this.Room.url) {
-      formData.append('imagen', this.Room.url);
+
+    if (this.Room.imagen) {
+      formData.append('imagen', this.Room.imagen);
     }
-   
+
     console.log(formData)
     try {
       this.service.createRoom(formData);
@@ -72,7 +72,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
 
   onUpdate() {
     const formData = new FormData();
-  
+
     formData.append('nombre', this.Room.nombre);
     formData.append('descripcion', this.Room.descripcion);
     formData.append('disponibilidad', this.Room.disponibilidad);
@@ -81,11 +81,11 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     formData.append('public_id', this.Room.public_id?.toString() ?? '');
     formData.append('tipo_habitacion_id', this.Room.tipo_habitacion_id?.toString() ?? '');
     formData.append('tipo_cama_id', this.Room.tipo_cama_id?.toString() ?? '');
-  
+
     if (this.Room.imagen) {
       formData.append('imagen', this.Room.imagen);
     }
-  
+
     console.log(formData)
     try {
       this.service.updateRoom(this.Room.id, formData);
@@ -105,11 +105,11 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
   onFileSelected(event: any) {
     const file = event.target.files[0];
     console.log(file);
-  
+
     if (file) {
       this.Room.imagen = file
       console.log(this.Room);
-  
+
       const reader = new FileReader();
       reader.onload = (e: any) => {
         this.imagenRender = e.target.result;
@@ -119,27 +119,29 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
   }
 
   async ngOnInit() {
-    this.route.params.subscribe(async params => {
-      const id = params['id'];
-      if (id) {
-        try {
-          const res = await this.service.getRoom(id);
-          console.log(res);
-          
-          if (res.habitacion) {
-            this.Room = res.habitacion;
-          }
-        } catch (error) {
-          console.error(error);
-        }
+    let id: number = 0
+    this.route.params.subscribe(params => {
+      id = params['id']
+
+    })
+    if (!isNaN(id)) {
+      try {
+
+        const res = await this.service.getRoom(id);
+
+        this.Room = res.habitacion;
+
+        console.log(res.habitacion)
+      } catch (error) {
+        console.error(error);
       }
-    });
-  
+    }
+
     try {
-  
+
       this.tipoHabitaciones = await this.service.getTipoHabitaciones();
       this.tipoCamas = await this.service.getTipoCamas();
-      console.log(this.tipoHabitaciones,this.tipoCamas)
+      console.log(this.tipoHabitaciones, this.tipoCamas)
     } catch (error) {
       console.error(error);
     }

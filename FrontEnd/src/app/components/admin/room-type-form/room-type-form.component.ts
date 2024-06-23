@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Service } from '../../../models/service';
+import { RoomType } from '../../../models/roomType';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ServiceAdminService } from '../../../services/service-admin.service';
+import { RoomTypesAdminService } from '../../../services/room-types-admin.service';
 import { FormsModule } from '@angular/forms';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -9,81 +9,74 @@ import { CommonModule } from '@angular/common';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 
 @Component({
-  selector: 'app-servicio-form',
+  selector: 'app-room-type-form',
   standalone: true,
   imports: [FontAwesomeModule, CommonModule, RouterLink, FormsModule],
-  templateUrl: './servicio-form.component.html',
-  styleUrl: './servicio-form.component.css'
+  templateUrl: './room-type-form.component.html',
+  styleUrl: './room-type-form.component.css'
 })
-
-export class ServicioFormComponent implements OnInit {
+export class RoomTypeFormComponent implements OnInit {
   faeyeslash = faEyeSlash
   faeye = faEye
-  
-  public servicio: Service = {
+  public tipoDeHabitacion: RoomType = {
     id: null,
-    nombre: '',
-    descripcion: '',
-    costo: null,
-    activo: ''
+    tipoHabitacion: '',
+    capacidad: null
   }
 
-  constructor(private service: ServiceAdminService, private swal: SweetAlertService, private route: ActivatedRoute) {
-    
+  constructor(private service: RoomTypesAdminService, private swal: SweetAlertService, private route: ActivatedRoute) {
+
   }
 
   async ngOnInit() {
     let id: number = 0
     this.route.params.subscribe(params => {
       id = params['id']
-      
+
     })
     if (!isNaN(id)) {
       try {
 
-        const res = await this.service.getService(id);
+        const res = await this.service.getRoomType(id);
 
-        
-          this.servicio = res;
-        
+
+        this.tipoDeHabitacion = res.tipoHabitacion;
+
         console.log(res)
       } catch (error) {
         console.error(error);
       }
     }
-    
+
   }
 
   onUpdate() {
     try {
-      this.service.updateService(this.servicio.id, this.servicio);
-      this.swal.showToast('Servicio actualizado correctamente', 'success');
+      this.service.updateRoomType(this.tipoDeHabitacion.id, this.tipoDeHabitacion);
+      this.swal.showToast('Tipo de habiatción actualizado correctamente', 'success');
     } catch (error) {
       console.error(error)
     }
   }
 
-
   onCreate() {
     const formData = new FormData();
 
     // Añade cada propiedad verificando su tipo
-    formData.append('nombre', this.servicio.nombre);
-    formData.append('descripcion', this.servicio.descripcion);
-    formData.append('costo', this.servicio.costo?.toString() ?? '');
-    formData.append('activo', this.servicio.activo);
+    formData.append('tipoHabitacion', this.tipoDeHabitacion.tipoHabitacion);
+    formData.append('capacidad', this.tipoDeHabitacion.capacidad?.toString() ?? '');
 
     console.log(formData)
     try {
-      this.service.createService(formData);
-      this.swal.showToast('Servicio creado correctamente', 'success');
+      this.service.createRoomType(formData);
+      this.swal.showToast('Tipo de habiatción creado correctamente', 'success');
     } catch (error) {
       console.error(error)
     }
   }
 
   onsubmit() {
-    if (this.servicio.id != null) {
+    if (this.tipoDeHabitacion.id != null) {
       this.onUpdate();
     } else {
       this.onCreate();

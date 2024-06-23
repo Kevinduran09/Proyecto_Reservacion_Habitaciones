@@ -18,7 +18,6 @@ export class UserLogin{
 export class UserResponse{
     constructor(
         public id: number,
-        public cedula: string,
         public nombre: string,
         public apellidos: string,
         public correo: string,
