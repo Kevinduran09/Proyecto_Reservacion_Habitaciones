@@ -13,8 +13,6 @@ export class roomsService {
       baseURL: 'http://127.0.0.1:8000/api'
     })
   }
-
-
   
   async getTipoHabitaciones(): Promise<any[]> {
     try {
@@ -89,7 +87,7 @@ export class roomsService {
     }
   }
 
-  async deleteRoom(id: number) {
+  async deleteRoom(id: number|null) {
     try {
       await this.roomsApi.delete(`/habitacion/${id}`, {
         headers: {

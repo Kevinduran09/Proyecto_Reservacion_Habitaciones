@@ -40,7 +40,7 @@ export class ServiceAdminService {
     }
   }
 
-  async deleteService(id: number|null) {
+  async deleteService(id: number | null) {
     try {
       const res = await this.auth.delete(`/servicio/${id}`, {
         headers: {

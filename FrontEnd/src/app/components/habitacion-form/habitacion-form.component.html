@@ -18,8 +18,11 @@
               <input id="descripcion" type="text" #descripcion="ngModel" class="form-control" name="descripcion"
                 required [(ngModel)]="Room.descripcion" />
 
+              <label for="disponibilidad">Disponibilidad</label>
+              <input id="disponibilidad" type="text" #disponibilidad="ngModel" class="form-control"
+                name="disponibilidad" required [(ngModel)]="Room.disponibilidad" />
 
-              <label for="precioNoche">Precio de habitacion por Noche</label>
+              <label for="precioNoche">Precio por Noche</label>
               <input id="precioNoche" type="text" #precioNoche="ngModel" class="form-control" name="precioNoche"
                 required [(ngModel)]="Room.precioNoche" />
 
