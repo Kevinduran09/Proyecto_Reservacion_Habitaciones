@@ -14,19 +14,11 @@ export class roomsService {
     })
   }
 
-  async getDisponibilidad(): Promise<any[]> {
-    try {
-      const response = await this.roomsApi.get('/disponibilidad');
-      return response.data;
-    } catch (error) {
-      console.error('Error fetching disponibilidad:', error);
-      throw error;
-    }
-  }
 
+  
   async getTipoHabitaciones(): Promise<any[]> {
     try {
-      const response = await this.roomsApi.get('/tipo_habitaciones');
+      const response = await this.roomsApi.get('/tipoHabitacion');
       return response.data;
     } catch (error) {
       console.error('Error fetching tipo_habitaciones:', error);
@@ -36,7 +28,11 @@ export class roomsService {
 
   async getTipoCamas(): Promise<any[]> {
     try {
-      const response = await this.roomsApi.get('/tipo_camas');
+      const response = await this.roomsApi.get('/tipoCama', {
+        headers: {
+          'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+        }
+      });
       return response.data;
     } catch (error) {
       console.error('Error fetching tipo_camas:', error);
@@ -107,7 +103,7 @@ export class roomsService {
 
   async updateRoom(id: number | null, data: FormData) {
     try {
-      const res = await this.roomsApi.post(`/habitacion/edit/${id}`, data, {
+      const res = await this.roomsApi.post(`/habitacionEdit/${id}`, data, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }

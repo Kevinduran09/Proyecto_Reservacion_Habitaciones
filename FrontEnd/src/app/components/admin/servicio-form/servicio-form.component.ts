@@ -7,6 +7,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
+import { isEmpty } from 'rxjs';
 
 @Component({
   selector: 'app-servicio-form',
@@ -34,16 +35,23 @@ export class ServicioFormComponent implements OnInit {
     let id: number = 0
     this.route.params.subscribe(params => {
       id = params['id']
+      
+      
     })
-    try {
-      const res = await this.service.getService(id);
-      if (res) {
-        this.servicio = res;
+    if (!isNaN(id)) {
+      try {
+
+        const res = await this.service.getService(id);
+
+        if (res == Service) {
+          this.servicio = res;
+        }
+        console.log(res)
+      } catch (error) {
+        console.error(error);
       }
-      console.log(res)
-    } catch (error) {
-      console.error(error);
     }
+    
   }
 
   onUpdate() {

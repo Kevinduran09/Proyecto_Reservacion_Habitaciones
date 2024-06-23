@@ -31,15 +31,15 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
       tipoHabitacion: '',
       capacidad: 0
     },
-    tipo_cama:  {
+    tipo_cama: {
       id: 0,
       tipo: '',
       descripcion: ''
     },
-    servicios: []
+    servicios: [],
+    imagen: null
   }
 
-  public disponibilidades: any[] = [];
   public tipoHabitaciones: any[] = [];
   public tipoCamas: any[] = [];
 
@@ -78,12 +78,12 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     formData.append('disponibilidad', this.Room.disponibilidad);
     formData.append('precioNoche', this.Room.precioNoche?.toString() ?? '');
     formData.append('url', this.Room.url);
-    formData.append('public_id', this.Room.tipo_habitacion?.toString() ?? '');
+    formData.append('public_id', this.Room.public_id?.toString() ?? '');
     formData.append('tipo_habitacion_id', this.Room.tipo_habitacion_id?.toString() ?? '');
     formData.append('tipo_cama_id', this.Room.tipo_cama_id?.toString() ?? '');
   
-    if (this.Room.url) {
-      formData.append('url', this.Room.url);
+    if (this.Room.imagen) {
+      formData.append('imagen', this.Room.imagen);
     }
   
     console.log(formData)
@@ -107,7 +107,7 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     console.log(file);
   
     if (file) {
-      this.Room.url = file
+      this.Room.imagen = file
       console.log(this.Room);
   
       const reader = new FileReader();
@@ -124,8 +124,10 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
       if (id) {
         try {
           const res = await this.service.getRoom(id);
-          if (res.room) {
-            this.Room = res.room;
+          console.log(res);
+          
+          if (res.habitacion) {
+            this.Room = res.habitacion;
           }
         } catch (error) {
           console.error(error);
@@ -134,9 +136,10 @@ export class HabitacionFormComponent implements OnInit { // Implementar OnInit
     });
   
     try {
-      this.disponibilidades = await this.service.getDisponibilidad();
+  
       this.tipoHabitaciones = await this.service.getTipoHabitaciones();
       this.tipoCamas = await this.service.getTipoCamas();
+      console.log(this.tipoHabitaciones,this.tipoCamas)
     } catch (error) {
       console.error(error);
     }
