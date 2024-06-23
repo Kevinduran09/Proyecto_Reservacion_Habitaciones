@@ -1,10 +1,21 @@
 <section class="min-vh-100 d-flex justify-content-center" id="rooms" style="background-color: #f2f6f8">
-    <div class="container pt-5">
-        <div class="text-center mb-5">
-            <h2 class="fs-1">Encuentra tu habitación deseada</h2>
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between p-2 align-items-center text-center mb-5 ">
+            <h2 class="fs-1 pt-2 text-dark">Encuentra tu habitación deseada</h2>
+
+
+            @if(!allRoomsCompleted){
+            <div class="">
+                <div class="m-2">
+                    <button class="btn-sb p-2 py-2 process" (click)="processReservation()">
+                        Procesar Reservación
+                    </button>
+                </div>
+            </div>
+            }
         </div>
         <div class="row gap-5">
-
+            <span class="fs-5 text-secondary ms-3">Utilice los criterios de busqueda que desee</span>
             <!-- lado izquierdo -->
             <div class="col">
                 <form [formGroup]="formdata" (ngSubmit)="onsubmit()" class="row g-3 justify-content-center">
@@ -68,7 +79,7 @@
                     </div>
 
                     <!-- Botón de Buscar -->
-                    <div class="col-12 text-center">
+                    <div class="col-12 text-center" (dis)]>
                         <button class="btn-sb p-2 py-2 w-50" style="height: inherit;">Buscar <fa-icon
                                 [icon]="faPaperPlane" size="sm"></fa-icon>
                         </button>
@@ -79,6 +90,7 @@
             <!-- lado derecho -->
             <div class="col">
                 <div class="row g-3  justify-content-center">
+                    <span *ngIf="roomDetails.length > 0" class="fs-2" >Habitaciones deseadas</span>
                     <div class="room-indicators d-flex flex-row">
                         <div  *ngFor="let room of roomDetails.rooms; let i = index"  (click)="setActiveReservation(i)" [class.selected]="room !=null"
                             [class.not-selected]="room==null">
@@ -87,15 +99,7 @@
                     </div>
                 </div>
 
-                @if(allRoomsCompleted){
-                    <div class="w-10 float-top">
-                        <div class="-12 tecolxt-center mt-3">
-                            <button class="btn-sb p-2 py-2 process" (click)="processReservation()">
-                                Procesar Reservación
-                            </button>
-                        </div>
-                    </div>
-                }
+                
 
             </div>
         </div>

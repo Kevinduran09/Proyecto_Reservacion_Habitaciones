@@ -43,9 +43,9 @@ export class ServicioFormComponent implements OnInit {
 
         const res = await this.service.getService(id);
 
-        if (res == Service) {
+        
           this.servicio = res;
-        }
+        
         console.log(res)
       } catch (error) {
         console.error(error);
