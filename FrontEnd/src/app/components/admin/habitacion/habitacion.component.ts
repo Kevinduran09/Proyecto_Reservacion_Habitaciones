@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { room } from '../../../models/rooms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { roomsService } from '../../../services/rooms.service';
@@ -8,9 +8,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
-import {MatIconModule} from '@angular/material/icon';
-import {MatDividerModule} from '@angular/material/divider';
-import {MatButtonModule} from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -24,47 +24,41 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
   templateUrl: './habitacion.component.html',
   styleUrl: './habitacion.component.css'
 })
-export class HabitacionComponent implements OnInit{
+export class HabitacionComponent implements AfterViewInit, OnInit {
   faeyeslash = faEyeSlash
   faeye = faEye
   mostrarContrasena = false
-  public Room!:room[];
+  public Room!: room[];
   public imagenRender: any
   dataSource!: MatTableDataSource<room>;
- displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'disponibilidad', 'precioNoche', 'url', 'tipo_habitacion_id','tipo_cama_id', 'acciones'];
-@ViewChild(MatPaginator) paginator!: MatPaginator;
-@ViewChild(MatSort) sort!: MatSort;
+  displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'disponibilidad', 'precioNoche', 'url', 'tipo_habitacion_id', 'tipo_cama_id', 'acciones'];
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
   constructor(private service: roomsService, private route: ActivatedRoute, private swal: SweetAlertService) {
-this.loadHabitacion();
+
   }
- 
-  async ngOnInit() {
-    let id: number = 0
-    this.route.params.subscribe(params => {
-      id = params['id']
-    })
+
+  ngOnInit() {
+    this.loadHabitacion();
+  }
+
+  async loadHabitacion() {
     try {
-      const res = await this.service.getRoom(id);
-      this.Room = res.Room;
-      console.log(res)
+      const res = await this.service.getRooms();
+      this.Room = res;
+      this.dataSource = new MatTableDataSource(this.Room);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async loadHabitacion(){
-    try{
-      const res = await this.service.getRooms();
-      this.Room = res;
-      this.dataSource = new MatTableDataSource(this.Room);
-    }catch(error) {
-      console.error(error);
-    }
-  }
-
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event: Event) {
@@ -77,10 +71,10 @@ this.loadHabitacion();
   }
 
   async deleteUser(room: room): Promise<void> {
-    if (await this.swal.showConfirm('Eliminar',`¿Estás seguro de que deseas eliminar la habitacion ${room.nombre}?`,'warning')) {
+    if (await this.swal.showConfirm('Eliminar', `¿Estás seguro de que deseas eliminar la habitacion ${room.nombre}?`, 'warning')) {
       try {
-        const response =  this.service.deleteRoom(room.id)
-        this.swal.showToast('Se ha eliminado correctamente','success')
+        const response = this.service.deleteRoom(room.id)
+        this.swal.showToast('Se ha eliminado correctamente', 'success')
         this.Room = this.Room.filter(d => d.id !== room.id);
         console.log(this.Room);
         this.Room;

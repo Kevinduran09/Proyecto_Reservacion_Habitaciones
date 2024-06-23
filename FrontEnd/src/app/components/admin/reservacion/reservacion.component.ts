@@ -23,7 +23,7 @@ import { SweetAlertService } from '../../../services/sweet-alert.service';
   templateUrl: './reservacion.component.html',
   styleUrl: './reservacion.component.css'
 })
-export class ReservacionComponent implements AfterViewInit {
+export class ReservacionComponent implements AfterViewInit, OnInit {
   displayedColumns: string[] = ['id', 'fechaIngreso', 'fechaSalida', 'estado', 'precioTotal', 'usuario_id', 'Acciones'];
   public reservations!: Array<Reservation>;
   dataSource!: MatTableDataSource<Reservation>;
@@ -34,6 +34,10 @@ export class ReservacionComponent implements AfterViewInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private service: ReservationAdminService, private swal: SweetAlertService) {
+
+  }
+
+  ngOnInit() {
     this.loadReservations();
   }
 
@@ -42,14 +46,18 @@ export class ReservacionComponent implements AfterViewInit {
       const res = await this.service.getReservations();
       this.reservations = res.reservaciones;
       this.dataSource = new MatTableDataSource(this.reservations);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     } catch (error) {
       console.error(error);
     }
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event: Event) {
@@ -62,10 +70,10 @@ export class ReservacionComponent implements AfterViewInit {
   }
 
   async deleteReservation(reservation: Reservation): Promise<void> {
-    if (await this.swal.showConfirm('Eliminar',`¿Estás seguro de que deseas eliminar el usuario ${reservation.id}?`,'warning')) {
+    if (await this.swal.showConfirm('Eliminar', `¿Estás seguro de que deseas eliminar el usuario ${reservation.id}?`, 'warning')) {
       try {
-        const response =  this.service.deleteReservation(reservation.id)
-        this.swal.showToast('Se ha eliminado correctamente','success')
+        const response = this.service.deleteReservation(reservation.id)
+        this.swal.showToast('Se ha eliminado correctamente', 'success')
         console.log(this.reservations);
         this.loadReservations();
       } catch (error) {
