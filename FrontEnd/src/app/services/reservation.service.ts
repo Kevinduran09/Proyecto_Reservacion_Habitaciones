@@ -36,7 +36,10 @@ export class ReservationService {
     const state = this.reservationState.getValue();
     this.reservationState.next({ ...state, currentSelectedRoomIndex: index });
   }
-
+  getAtiveRoomReservation(){
+    const state = this.reservationState.getValue()
+    return state.currentSelectedRoomIndex
+  }
   // Configura el número total de habitaciones necesarias y los detalles de cada habitación
   setTotalRoomsNeeded(roomsDetails: RoomData) {
     const currentState = this.reservationState.getValue();
@@ -113,6 +116,7 @@ export class ReservationService {
         roomSelections: updatedSelections,
         currentRoomIndex: currentState.currentRoomIndex + 1 // Incrementa para preparar la siguiente selección
       });
+      this.sweel.showToast(`Se selecciono la habitacion`,'success')
     } else {
       this.sweel.showAlert({ text: 'Ya se seleccionaron todas las habitaciones', icon: 'info', timer: 1500 });
     }
