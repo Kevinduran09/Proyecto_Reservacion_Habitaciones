@@ -37,12 +37,19 @@
           <label for="disponibilidad">Disponibilidad de la habitacion</label>
           <select
             id="disponibilidad"
-            #pulic_id="ngModel"
+            #disponibilidad="ngModel"
             class="form-control"
             name="disponibilidad"
             required
             [(ngModel)]="Room.disponibilidad"
-          ></select>
+          >
+            <option
+              *ngFor="let disponibilidad of disponibilidades"
+              [value]="disponibilidad.id"
+            >
+              {{ disponibilidad.nombre }}
+            </option>
+          </select>
 
           <label for="precioNoche">Precio de habitacion por Noche</label>
           <input
@@ -66,25 +73,36 @@
             />
           </div>
 
-          <label for="pulic_id">Tipo de habitacion</label>
+          <label for="public_id">Tipo de habitacion</label>
           <select
-            id="pulic_id"
-            #pulic_id="ngModel"
+            id="public_id"
+            #public_id="ngModel"
             class="form-control"
-            name="pulic_id"
+            name="public_id"
             required
             [(ngModel)]="Room.public_id"
-          ></select>
+          >
+            <option
+              *ngFor="let tipoHabitacion of tipoHabitaciones"
+              [value]="tipoHabitacion.id"
+            >
+              {{ tipoHabitacion.nombre }}
+            </option>
+          </select>
 
           <label for="tipo_cama">Tipo de cama</label>
           <select
             id="tipo_cama"
-            #pulic_id="ngModel"
+            #tipo_cama="ngModel"
             class="form-control"
             name="tipo_cama"
             required
             [(ngModel)]="Room.tipo_cama"
-          ></select>
+          >
+            <option *ngFor="let tipoCama of tipoCamas" [value]="tipoCama.id">
+              {{ tipoCama.nombre }}
+            </option>
+          </select>
         </div>
 
         <div class="text-center mt-3">
