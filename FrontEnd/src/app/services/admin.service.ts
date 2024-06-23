@@ -52,7 +52,7 @@ export class AdminService {
     }
   }
 
-  async updateClient(id:number|null,data:FormData){
+  async updateClient(id:number|null, data:FormData){
     try {
       const res = await this.auth.post(`/users/edit/${id}`, data, {
         headers: {

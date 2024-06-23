@@ -11,8 +11,7 @@ export interface filterRoom {
     maxValue: number | null
 }
 export interface room {
-   
-    id: number;
+    id: number|null;
     nombre: string;
     descripcion: string;
     disponibilidad: string;

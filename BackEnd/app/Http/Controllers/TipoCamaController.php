@@ -19,7 +19,6 @@ class TipoCamaController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tipo' => 'required|string|max:255',
-            'precioNoche' => 'required|numeric',
             'descripcion' => 'nullable|string'
         ]);
 
@@ -50,7 +49,6 @@ class TipoCamaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tipo' => 'required|string|max:255',
-            'precioNoche' => 'required|numeric',
             'descripcion' => 'nullable|string'
         ]);
 
@@ -70,7 +68,6 @@ class TipoCamaController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tipo' => 'sometimes|required|string|max:255',
-            'precioNoche' => 'sometimes|required|numeric',
             'descripcion' => 'sometimes|nullable|string'
         ]);
 

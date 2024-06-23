@@ -1,0 +1,41 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center w-100 px-5">
+        <!-- Sección de Formulario y Título -->
+        <div class="form-container">
+            <div class="text-center mb-4">
+                <h3 class="text-white display-3">Formulario de tipo de cama</h3>
+            </div>
+            <form class="text-white" #userForm="ngForm" (ngSubmit)="onsubmit()" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <input id="tipo" type="text" #tipo="ngModel" class="form-control" name="tipo" required
+                                [(ngModel)]="tipoCama.tipo" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion</label>
+                            <input id="descripcion" type="text" #descripcion="ngModel" class="form-control"
+                                name="descripcion" required [(ngModel)]="tipoCama.descripcion" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button *ngIf="tipoCama.id != null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Actualizar
+                    </button>
+                    <button *ngIf="tipoCama.id == null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

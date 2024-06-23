@@ -20,19 +20,22 @@
     </div>
     <div class="content">
         <ul class="">
-            <li class="w-10 "><a class="fs-4" [routerLink]="['cliente']"> <fa-icon [icon]="faUser"></fa-icon> Modulo
-                    Cliente</a></li>
-            <li class="w-10 "><a class="fs-4" [routerLink]="['habitacion']"><fa-icon [icon]="faBed"></fa-icon> Modulo
-                    Habitacion</a></li>
-            <li class="w-10 "><a class="fs-4" [routerLink]="['servicio']"><fa-icon [icon]="faBed"></fa-icon> Modulo
-                    Servicios</a></li>
+            <li class="w-10 "><a class="fs-4" [routerLink]="['cliente']"> <fa-icon [icon]="faUser"></fa-icon>Modulo
+                    cliente</a></li>
+            <li class="w-10 "><a class="fs-4" [routerLink]="['habitacion']"><fa-icon [icon]="faBed"></fa-icon>Modulo
+                    habitación</a></li>
+            <li class="w-10 "><a class="fs-4" [routerLink]="['servicio']"><fa-icon [icon]="faBed"></fa-icon>Modulo
+                    servicios</a></li>
             <li class="w-10 "><a class="fs-4" [routerLink]="['reservacion']"><fa-icon
-                        [icon]="faBellConcierge"></fa-icon> Modulo Reservacion</a></li>
-            <li class="w-100"><a class="fs-4" [routerLink]="['']"><fa-icon [icon]="faCopy"></fa-icon> Modulo
-                    Facturas</a></li>
+                        [icon]="faBellConcierge"></fa-icon>Modulo reservación</a></li>
+            <li class="w-10"><a class="fs-4" [routerLink]="['tipohabitacion']"><fa-icon [icon]="faBed"></fa-icon>Modulo
+                    tipo habit.</a></li>
+            <li class="w-10"><a class="fs-4" [routerLink]="['tipocama']"><fa-icon [icon]="faBed"></fa-icon>Modulo tipo
+                    cama</a></li>
         </ul>
     </div>
     <div class="footer d-flex w-100 p-3 justify-content-center ">
-        <button (click)="logout()" class="btn btn-danger btn-lg">Cerrar sesion <fa-icon [icon]="faRightFromBracket"></fa-icon></button>
+        <button (click)="logout()" class="btn btn-danger btn-lg">Cerrar sesion <fa-icon
+                [icon]="faRightFromBracket"></fa-icon></button>
     </div>
 </div>
