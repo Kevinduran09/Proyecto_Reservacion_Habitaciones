@@ -1,44 +1,44 @@
 import { Inject, inject, Injectable } from "@angular/core";
-import axios, {AxiosInstance} from "axios";
+import axios, { AxiosInstance } from "axios";
 import { UserCreate, UserLogin } from "../models/user";
 import { Router } from "@angular/router";
 import { SweetAlertService } from "./sweet-alert.service";
 @Injectable({
-    providedIn:'root'
+    providedIn: 'root'
 })
 
 export class AuthService {
     auth: AxiosInstance
     private router: Router = new Router;
     private sweel = new SweetAlertService
-    constructor(){
+    constructor() {
         this.auth = axios.create({
-            baseURL: "http://127.0.0.1:8000/api/auth",
-            
+            baseURL: "http://127.0.0.1:8000/api",
+
         })
     }
 
-    async login(userLogin:UserLogin){
-        const resp = await this.auth.post('/login',userLogin)
-      return resp.data
+    async login(userLogin: UserLogin) {
+        const resp = await this.auth.post('auth/login', userLogin)
+        return resp.data
     }
 
-    async isAutenticated(){
-       try {
-           const res = await this.auth.post('/current',null,{
-               headers: {
-                   'Authorization': `Bearer ${sessionStorage.getItem('token')}` // Agrega el token al encabezado Authorization
-               }
-           })
-           return res.data.status
-       } catch (error:any) {
-           return error.response.status;
-       }
+    async isAutenticated() {
+        try {
+            const res = await this.auth.post('auth/current', null, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}` // Agrega el token al encabezado Authorization
+                }
+            })
+            return res.data.status
+        } catch (error: any) {
+            return error.response.status;
+        }
     }
-    async getIndentityFromStorage(){
+    async getIndentityFromStorage() {
         try {
             const current = sessionStorage.getItem('current')
-            if(!current){
+            if (!current) {
                 return null
             }
 
@@ -48,33 +48,48 @@ export class AuthService {
             return false
         }
     }
-    async getIndentityFromAPI(){
+    async getIndentityFromAPI() {
         try {
-            const res = await this.auth.get('/me',{
+            const res = await this.auth.get('auth/me', {
                 headers: {
                     'Authorization': `Bearer ${sessionStorage.getItem('token')}` // Agrega el token al encabezado Authorization
                 }
             })
-            
-            return res.data
-        } catch (error) {
-             console.log(error);
-             return false
-        }
-    }
-    async register(user:UserCreate){
-        try {
-            const res = await this.auth.post('/register', user)
+
             return res.data
         } catch (error) {
             console.log(error);
-            
             return false
         }
     }
-    logout(){
+    async getUserIdentity() {
+        try {
+            const current = await this.getIndentityFromStorage()
+            const res = await this.auth.get(`/users/${current.user}`, {
+                headers: {
+                    'Authorization': `Bearer ${sessionStorage.getItem('token')}` // Agrega el token al encabezado Authorization
+                }
+            })
+            return res.data
+        } catch (error) {
+            console.log(error);
+
+            return false
+        }
+    }
+    async register(user: UserCreate) {
+        try {
+            const res = await this.auth.post('auth/register', user)
+            return res.data
+        } catch (error) {
+            console.log(error);
+
+            return false
+        }
+    }
+    logout() {
         sessionStorage.clear()
-        this.sweel.showAlert({title:"Se ha cerrado la sesion",timer:2000})
+        this.sweel.showAlert({ title: "Se ha cerrado la sesion", timer: 2000 })
         this.router.navigate(['/home'])
     }
 }

@@ -31,7 +31,12 @@ body {
 .text-center a {
   color: #007bff;
 }
-
+.process {
+  background: var(--color-success) !important;
+}
+.process:hover{
+  color: (--color-success) !important;
+}
 .img-thumbnail {
   background-color: #f0f0f0;
   background-repeat: no-repeat;

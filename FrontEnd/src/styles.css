@@ -1,5 +1,8 @@
 @import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
+:root{
+    --color-main: #088baf;
+    --color-success:#1aa15e;
+}
 html {
     scroll-behavior: smooth;
     scrollbar-width: none;
@@ -11,7 +14,7 @@ html {
     padding: 40px 30px 40px 40px;
 }
 .btn-sb {
-    background: #088baf;
+    background:var(--color-main);
     color: #fff;
     border: none;
     position: relative;
@@ -25,7 +28,7 @@ html {
 
 .btn-sb:hover {
     background: #fff;
-    color: #088baf;
+    color:var(--color-main);
 }
 
 .btn-sb:before,
@@ -36,7 +39,7 @@ html {
     right: 0;
     height: 2px;
     width: 0;
-    background: #088baf;
+    background:var(--color-main);
     transition: 400ms ease all;
 }
 

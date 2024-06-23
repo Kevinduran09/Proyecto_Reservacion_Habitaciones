@@ -8,7 +8,7 @@ import { filterForm } from '../../../models/date';
 import { MatSelectModule } from '@angular/material/select';
 import { roomsService } from '../../../services/rooms.service';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
-import { typeRoom } from '../../../models/rooms';
+import { room, typeRoom } from '../../../models/rooms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../services/auth.service';
@@ -31,13 +31,14 @@ import { ReservationService } from '../../../services/reservation.service';
 
 })
 export class RoomsComponent implements OnInit {
-
+  allRoomsCompleted: boolean = false;
   isAuth: boolean
   roomDetails: any;
   formdata!: FormGroup;
   typesRooms!: typeRoom[]
   rooms!: []
   faPaperPlane = faPaperPlane
+  roomSelections: any[] = [];
   minValue: number = 40;
   maxValue: number = 300;
   options: Options = {
@@ -64,6 +65,14 @@ export class RoomsComponent implements OnInit {
       maxValue: [300, Validators.required],
 
     })
+
+    
+
+    this.reservationService.currentReservationState.subscribe(state => {
+      this.roomSelections = state.roomSelections;
+      // Actualizar la interfaz de usuario si es necesario
+    });
+
     this.loadRoomDetail()
 
     try {
@@ -76,15 +85,29 @@ export class RoomsComponent implements OnInit {
       console.error(error)
       this.swal.showAlert({ title: 'Error', text: 'No se pueden cargar tipos de habitaciones', icon: 'error' })
     }
+
+    console.log(this.allRoomsCompleted);
+    
   }
+
+  processReservation() {
+    this.reservationService.setDataForm(this.formdata.value);
+    console.log('Procesando reservación con las siguientes selecciones:', this.reservationService.getCurrentSelections());
+    // Ejemplo de redirección o manejo
+    this.router.navigate(['/confirm-reservation']); // Asegúrate de importar y configurar Router si usas esta opción
+  }
+
   handleRoomDataChange(event: any) {
     this.roomDetails = event
-    console.log(this.roomDetails.rooms.length);
-    
-    this.reservationService.setTotalRoomsNeeded(this.roomDetails )
-    console.log('Updated room details:', this.roomDetails);
+
+
+    this.reservationService.setTotalRoomsNeeded(this.roomDetails)
     this.reservationService.currentReservationState.subscribe(state => {
       console.log('Current state:', state);
+      this.allRoomsCompleted = this.reservationService.allRoomsSelected()
+      console.log(this.allRoomsCompleted);
+      
+      
     })
 
   }
@@ -92,7 +115,12 @@ export class RoomsComponent implements OnInit {
   loadRoomDetail() {
     this.reservationService.currentReservationState.subscribe(state => {
       this.roomDetails = state.roomsDetails || [];
+
     })
+  }
+
+  setActiveReservation(index: number) {
+    this.reservationService.setActiveRoomReservation(index);
   }
 
   async onsubmit() {
@@ -156,6 +184,8 @@ export class RoomsComponent implements OnInit {
 
     this.reservationService.currentReservationState.subscribe(state => {
       console.log('Current state:', state);
+      this.allRoomsCompleted = this.reservationService.allRoomsSelected()
+      console.log('stado: ', this.allRoomsCompleted);
     })
 
   }

@@ -85,30 +85,25 @@
               />
 
               <label for="contrasena">Contraseña</label>
-              <input
-                [type]="mostrarContrasena ? 'text' : 'password'"
-                id="contrasena"
-                class="form-control"
-                name="contrasena"
-                required
-                [(ngModel)]="client.contrasena"
-              />
 
+              <div class="position">
+                <input class="form-control form-control-lg bg-light fs-6 input-con-ellipsis" name="contrasena" required
+                  [(ngModel)]="client.contrasena" />
+              
+                <fa-icon [icon]="faeyeslash" (click)="toggleContrasena()" id="togglepassword"></fa-icon>
+              </div>
               <label for="rolId">Tipo de rol</label>
-              <select
-                id="rolId"
-                #rolId="ngModel"
-                class="form-control"
-                name="rolId"
-                required
-                [(ngModel)]="client.rol_id"
-              >
-                <option [value]="1">Administrador</option>
-                <option [value]="2">Usuario</option>
+              <select id="rolId" #rolId="ngModel" class="form-control" name="rolId" required
+                [(ngModel)]="client.rol_id">
+                <option [value]=1>Administrador</option>
+                <option [value]=2>Usuario</option>
+
               </select>
             </div>
           </div>
         </div>
+        <pre>{{ editForm.value | json }}</pre> <!-- Muestra los valores actuales del formulario -->
+        <pre>{{ editForm.valid | json }}</pre> <!-- Muestra si el formulario es válido o no -->
 
         <div class="text-center mt-3">
           @if(client.id!= null){

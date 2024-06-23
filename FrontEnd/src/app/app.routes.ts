@@ -11,12 +11,15 @@ import { roomsService } from './services/rooms.service';
 import { HabitacionComponent } from './components/admin/habitacion/habitacion.component';
 import { RoomsComponent } from './components/home/habitaciones/rooms.component';
 import { ClienteComponent } from './components/admin/cliente/cliente.component';
+
+import { ReservacionConfiComponent } from './components/reservacion-confi/reservacion-confi.component';
 import { ClienteFormComponent } from './components/client-form/client-form.component';
 import { ReservacionComponent } from './components/admin/reservacion/reservacion.component';
 import { ReservationFormComponent } from './components/admin/reservation-form/reservation-form.component';
 import { ServicioComponent } from './components/admin/servicio/servicio.component';
 import { ServicioFormComponent } from './components/admin/servicio-form/servicio-form.component';
 import { HabitacionFormComponent } from './components/habitacion-form/habitacion-form.component';
+
 
 export const routes: Routes = [
     {
@@ -34,7 +37,9 @@ export const routes: Routes = [
     {
         path: 'rooms', component: RoomsComponent
     },
-
+    { 
+        path: 'confirm-reservation', component: ReservacionConfiComponent 
+    },
     {
         path: 'admin', component: AdminComponent, canActivate: [authGuard], data: { expectedRol: 'admin' },
         children:[

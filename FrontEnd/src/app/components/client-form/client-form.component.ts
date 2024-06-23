@@ -20,7 +20,9 @@ export class ClienteFormComponent implements OnInit {
   faeyeslash = faEyeSlash
   faeye = faEye
   mostrarContrasena = false
+
   public client:User = {
+
     id: null,
     nombre: '',
     apellidos: '',
@@ -46,9 +48,12 @@ export class ClienteFormComponent implements OnInit {
     })
     try {
       const res = await this.service.getClient(id);
+
+
       if (res.User) {
         this.client = res.User;
       }
+
       console.log(res)
     } catch (error) {
       console.error(error);
@@ -80,7 +85,7 @@ export class ClienteFormComponent implements OnInit {
 
     console.log(formData)
     try {
-      this.service.updateClient(this.client.id, formData);
+      this.service.createClient(formData);
     } catch (error) {
       console.error(error)
     }

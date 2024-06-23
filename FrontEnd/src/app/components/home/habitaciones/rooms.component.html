@@ -3,59 +3,104 @@
         <div class="text-center mb-5">
             <h2 class="fs-1">Encuentra tu habitación deseada</h2>
         </div>
-        <form [formGroup]="formdata" (ngSubmit)="onsubmit()" class="row g-3 justify-content-center">
-            <!-- Fecha de Ingreso y Salida -->
-            <div class="col-md-6">
-                <mat-form-field appearance="fill" class="w-100">
-                    <mat-label>Fecha de Ingreso</mat-label>
-                    <input matInput [matDatepicker]="picker1" formControlName="dateStart" placeholder="Choose a date">
-                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-                    <mat-datepicker #picker1></mat-datepicker>
-                </mat-form-field>
-            </div>
-            <div class="col-md-6">
-                <mat-form-field appearance="fill" class="w-100">
-                    <mat-label>Fecha de Salida</mat-label>
-                    <input matInput [matDatepicker]="picker2" formControlName="dateEnd" placeholder="Choose a date">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </mat-form-field>
-            </div>
+        <div class="row gap-5">
 
-            <!-- Tipo de Habitación y Cantidad -->
-            <div class="col-md-6">
-                <mat-form-field appearance="fill" class="w-100">
-                    <mat-label>Tipo de Habitación</mat-label>
-                    <mat-select formControlName="typeRoom">
-                        <mat-option value="">Todas</mat-option>
-                        <mat-option *ngFor="let item of typesRooms" [value]="item.id">{{
-                            item.tipoHabitacion.toUpperCase() }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-6">
-                <button type="button" class="btn btn-outline-secondary w-100" data-bs-toggle="modal"
-                    data-bs-target="#exampleModal">
-                    Cantidad de Habitaciones
-                </button>
-            </div>
+            <!-- lado izquierdo -->
+            <div class="col">
+                <form [formGroup]="formdata" (ngSubmit)="onsubmit()" class="row g-3 justify-content-center">
+                    <!-- Fecha de Ingreso y Salida -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha de Ingreso</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="dateStart"
+                                placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha de Salida</mat-label>
+                            <input matInput [matDatepicker]="picker2" formControlName="dateEnd"
+                                placeholder="Choose a date">
+                            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                            <mat-datepicker #picker2></mat-datepicker>
+                        </mat-form-field>
+                    </div>
 
-            <!-- Rango de Precios -->
-            <div class="col-12">
-                <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
-                    class="w-100"></ngx-slider>
-                <div class="d-flex justify-content-between">
-                    <span>Precio mínimo: {{ minValue | currency:'USD':'symbol' }}</span>
-                    <span>Precio máximo: {{ maxValue | currency:'USD':'symbol' }}</span>
+                    <!-- Tipo de Habitación y Cantidad -->
+                    <div class="col-md-6">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Tipo de Habitación</mat-label>
+                            <mat-select formControlName="typeRoom">
+                                <mat-option value="">Todas</mat-option>
+                                <mat-option *ngFor="let item of typesRooms" [value]="item.id">{{
+                                    item.tipoHabitacion.toUpperCase() }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn btn-outline-secondary w-100 rounded-none p-3"
+                            style="border-radius: 0;" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Cantidad de Habitaciones
+                        </button>
+
+
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <app-rooms-selector r [roomData]="roomDetails"
+                                        (roomDataChange)="handleRoomDataChange($event)"></app-rooms-selector>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rango de Precios -->
+                    <div class="col-12">
+                        <ngx-slider [(value)]="minValue" [(highValue)]="maxValue" [options]="options"
+                            class="w-100"></ngx-slider>
+                        <div class="d-flex justify-content-between">
+                            <span>Precio mínimo: {{ minValue | currency:'USD':'symbol' }}</span>
+                            <span>Precio máximo: {{ maxValue | currency:'USD':'symbol' }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Botón de Buscar -->
+                    <div class="col-12 text-center">
+                        <button class="btn-sb p-2 py-2 w-50" style="height: inherit;">Buscar <fa-icon
+                                [icon]="faPaperPlane" size="sm"></fa-icon>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+            <!-- lado derecho -->
+            <div class="col">
+                <div class="row g-3  justify-content-center">
+                    <div class="room-indicators d-flex flex-row">
+                        <div  *ngFor="let room of roomDetails.rooms; let i = index"  (click)="setActiveReservation(i)" [class.selected]="room !=null"
+                            [class.not-selected]="room==null">
+                            Room {{ i + 1 }}
+                        </div>
+                    </div>
                 </div>
-            </div>
 
-            <!-- Botón de Buscar -->
-            <div class="col-12">
-                <button class="btn btn-primary w-100">Buscar <fa-icon [icon]="faPaperPlane"
-                        size="sm"></fa-icon></button>
+                @if(allRoomsCompleted){
+                    <div class="w-10 float-top">
+                        <div class="-12 tecolxt-center mt-3">
+                            <button class="btn-sb p-2 py-2 process" (click)="processReservation()">
+                                Procesar Reservación
+                            </button>
+                        </div>
+                    </div>
+                }
+
             </div>
-        </form>
+        </div>
+
+       
 
         <!-- Resultados de las Habitaciones -->
         <div class="row mt-4">
