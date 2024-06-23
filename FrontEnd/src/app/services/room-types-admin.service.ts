@@ -55,7 +55,7 @@ export class RoomTypesAdminService {
 
   async updateRoomType(id: number | null, data: RoomType) {
     try {
-      const res = await this.auth.post(`/habitacionPartialEdit/${id}`, data, {
+      const res = await this.auth.post(`/tipoHabitacion/${id}`, data, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
