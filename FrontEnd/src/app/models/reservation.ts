@@ -4,7 +4,7 @@ export class Reservation{
         public fechaIngreso:string,
         public fechaSalida:string,
         public estado:string,
-        public precioTotal:number,
-        public usuario_id:number
+        public precioTotal:number|null,
+        public usuario_id:number|null
     ){}
 }

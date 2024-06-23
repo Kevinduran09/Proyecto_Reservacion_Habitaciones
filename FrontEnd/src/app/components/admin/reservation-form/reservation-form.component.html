@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center w-100 px-5">
+        <!-- Sección de Formulario y Título -->
+        <div class="form-container">
+            <div class="text-center mb-4">
+                <h3 class="text-white display-3">Formulario de reservación</h3>
+            </div>
+            <form class="text-white" #userForm="ngForm" (ngSubmit)="onsubmit()" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fechaIngreso">Ingresa</label>
+                            <input id="fechaIngreso" type="date" #fechaIngreso="ngModel" class="form-control"
+                                name="fechaIngreso" required [(ngModel)]="reservation.fechaIngreso" />
+
+                            <label for="estado">Estado</label>
+                            <input id="estado" type="text" #estado="ngModel" class="form-control" name="estado" required
+                                [(ngModel)]="reservation.estado" />
+
+                            <label for="usuario_id">Usuario ID</label>
+                            <input id="usuario_id" type="text" #usuario_id="ngModel" class="form-control"
+                                name="usuario_id" required [(ngModel)]="reservation.usuario_id" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="fechaSalida">Salida</label>
+                            <input id="fechaSalida" type="date" #fechaSalida="ngModel" class="form-control"
+                                name="fechaSalida" required [(ngModel)]="reservation.fechaSalida" />
+
+                            <label for="precioTotal">Precio total</label>
+                            <input id="precioTotal" type="text" #precioTotal="ngModel" class="form-control"
+                                name="precioTotal" required [(ngModel)]="reservation.precioTotal" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button *ngIf="reservation.id != null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Actualizar
+                    </button>
+                    <button *ngIf="reservation.id == null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
