@@ -1,7 +1,9 @@
 
 <div class="room-selector" [formGroup]="roomForm">
     <label for="roomCount">Número de Habitaciones:</label>
-    <input type="number" id="roomCount" (input)="setRooms($event)" min="1" value="1">
+    <select id="roomCount" (change)="setRooms($event)">
+        <option *ngFor="let num of [1, 2, 3, 4]" [value]="num">{{ num }}</option>
+    </select>
 
     <div formArrayName="rooms">
         <div *ngFor="let room of rooms.controls; let i = index" [formGroupName]="i">
@@ -15,5 +17,5 @@
         </div>
     </div>
 
-    <button (click)="onSubmit()">Guardar Cambios</button>
+    <button type="button"  data-bs-dismiss="modal"  (click)="onSubmit()">Guardar Cambios</button>
 </div>

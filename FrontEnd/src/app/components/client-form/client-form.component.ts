@@ -20,7 +20,19 @@ export class ClienteFormComponent implements OnInit {
   faeyeslash = faEyeSlash
   faeye = faEye
   mostrarContrasena = false
-  public client = new User(null, '', '', '', '', null, '', '', '', '', 0);
+  client: User = {
+    id: null,
+    nombre: '',
+    apellidos: '',
+    correo: '',
+    cedula: '',
+    imagen: null,
+    url: null,
+    public_id: null,
+    nomUsuario: '',
+    contrasena: '',
+    rol_id: null
+  };
   public imagenRender: any
   constructor(private service: AdminService, private route: ActivatedRoute) {
 
@@ -34,7 +46,12 @@ export class ClienteFormComponent implements OnInit {
     })
     try {
       const res = await this.service.getClient(id);
-      this.client = res.User;
+
+      if(res.User){
+        this.client = res.User;
+      }
+
+      
       console.log(res)
     } catch (error) {
       console.error(error);
@@ -65,7 +82,7 @@ export class ClienteFormComponent implements OnInit {
 
     console.log(formData)
     try {
-      this.service.updateClient(this.client.id, formData);
+      this.service.createClient(formData);
     } catch (error) {
       console.error(error)
     }

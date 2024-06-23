@@ -13,6 +13,7 @@ import { HabitacionComponent } from './components/admin/habitacion/habitacion.co
 import { RoomsComponent } from './components/home/habitaciones/rooms.component';
 import { ClienteFormComponent } from './components/client-form/client-form.component';
 import { ClienteComponent } from './components/admin/cliente/cliente.component';
+import { ReservacionConfiComponent } from './components/reservacion-confi/reservacion-confi.component';
 
 export const routes: Routes = [
     {
@@ -30,14 +31,17 @@ export const routes: Routes = [
     {
         path: 'rooms', component: RoomsComponent
     },
-
+    { 
+        path: 'confirm-reservation', component: ReservacionConfiComponent 
+    },
     {
         path: 'admin', component: AdminComponent, canActivate: [authGuard], data: { expectedRol: 'admin' },
-        children:[
-            {path:'cliente',component:ClienteComponent},
-            {path:'habitacion',component:HabitacionComponent},
-            {path:'reservacion',component:ReservacionComponent},
-            {path:'cliente-info/:id',component:ClienteFormComponent}
+        children: [
+            { path: 'cliente', component: ClienteComponent },
+            { path: 'habitacion', component: HabitacionComponent },
+            { path: 'reservacion', component: ReservacionComponent },
+            { path: 'cliente-info/:id', component: ClienteFormComponent }
+
         ]
     },
     {

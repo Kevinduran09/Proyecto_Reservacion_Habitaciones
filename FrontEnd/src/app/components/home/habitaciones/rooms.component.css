@@ -37,3 +37,23 @@ h2 {
 .mat-expansion-panel-body {
     padding: 0 !important;
 }
+
+.room-indicators div {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    width: 100px;
+}
+
+.selected {
+    background-color: var(--color-main);
+    /* Verde si seleccionada */
+    color: white;
+}
+
+.not-selected {
+    background-color: blue;
+    /* Azul si no seleccionada */
+    color: white;
+}
