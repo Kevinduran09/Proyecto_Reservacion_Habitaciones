@@ -16,6 +16,7 @@ import { ReservacionComponent } from './components/admin/reservacion/reservacion
 import { ReservationFormComponent } from './components/admin/reservation-form/reservation-form.component';
 import { ServicioComponent } from './components/admin/servicio/servicio.component';
 import { ServicioFormComponent } from './components/admin/servicio-form/servicio-form.component';
+import { HabitacionFormComponent } from './components/habitacion-form/habitacion-form.component';
 
 export const routes: Routes = [
     {
@@ -43,7 +44,8 @@ export const routes: Routes = [
             {path:'cliente-info/:id',component:ClienteFormComponent},
             {path:'reservacion-info/:id', component:ReservationFormComponent},
             {path:'servicio', component:ServicioComponent},
-            {path:'servicio-info/:id', component:ServicioFormComponent}
+            {path:'servicio-info/:id', component:ServicioFormComponent},
+            {path:'habitacion-info/:id',component:HabitacionFormComponent}
         ]
     },
     {

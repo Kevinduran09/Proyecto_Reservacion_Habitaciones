@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { room } from '../../../models/rooms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { roomsService } from '../../../services/rooms.service';
@@ -14,8 +14,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 @Component({
   selector: 'app-habitacion',
@@ -31,11 +31,13 @@ export class HabitacionComponent implements OnInit{
   public Room!:room[];
   public imagenRender: any
   dataSource!: MatTableDataSource<room>;
-displayedColumns: any;
-  constructor(private service: roomsService, private route: ActivatedRoute) {
-
+ displayedColumns: string[] = ['id', 'nombre', 'descripcion', 'disponibilidad', 'precioNoche', 'url', 'tipo_habitacion_id','tipo_cama_id', 'acciones'];
+@ViewChild(MatPaginator) paginator!: MatPaginator;
+@ViewChild(MatSort) sort!: MatSort;
+  constructor(private service: roomsService, private route: ActivatedRoute, private swal: SweetAlertService) {
+this.loadHabitacion();
   }
-
+ 
   async ngOnInit() {
     let id: number = 0
     this.route.params.subscribe(params => {
@@ -43,11 +45,26 @@ displayedColumns: any;
     })
     try {
       const res = await this.service.getRoom(id);
-      this.Room = res.User;
+      this.Room = res.Room;
       console.log(res)
     } catch (error) {
       console.error(error);
     }
+  }
+
+  async loadHabitacion(){
+    try{
+      const res = await this.service.getRooms();
+      this.Room = res;
+      this.dataSource = new MatTableDataSource(this.Room);
+    }catch(error) {
+      console.error(error);
+    }
+  }
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -56,6 +73,20 @@ displayedColumns: any;
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+  }
+
+  async deleteUser(room: room): Promise<void> {
+    if (await this.swal.showConfirm('Eliminar',`¿Estás seguro de que deseas eliminar la habitacion ${room.nombre}?`,'warning')) {
+      try {
+        const response =  this.service.deleteRoom(room.id)
+        this.swal.showToast('Se ha eliminado correctamente','success')
+        this.Room = this.Room.filter(d => d.id !== room.id);
+        console.log(this.Room);
+        this.Room;
+      } catch (error) {
+        console.error(error)
+      }
     }
   }
 }
