@@ -36,6 +36,9 @@ public client = new UserCreate('','','','',null,'','');
 
   constructor(private service:AdminService, private swal: SweetAlertService) {
 
+  }
+
+  ngOnInit(){
     this.loadClients();
   }
 
@@ -44,14 +47,18 @@ public client = new UserCreate('','','','',null,'','');
       const res = await this.service.getClients();
       this.clientes = res;
       this.dataSource = new MatTableDataSource(this.clientes);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
     }catch(error) {
       console.error(error);
     }
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    if (this.dataSource) {
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }
   }
 
   applyFilter(event: Event) {

@@ -26,9 +26,9 @@ export class ServiceAdminService {
     }
   }
 
-  async createService(service: FormData) {
+  async createService(servicio: FormData) {
     try {
-      const res = await this.auth.post('/servicio', service, {
+      const res = await this.auth.post('/servicio', servicio, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
@@ -39,7 +39,7 @@ export class ServiceAdminService {
     }
   }
 
-  async deleteService(id: number) {
+  async deleteService(id: number|null) {
     try {
       const res = await this.auth.delete(`/servicio/${id}`, {
         headers: {

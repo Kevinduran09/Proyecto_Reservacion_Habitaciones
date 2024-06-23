@@ -39,14 +39,13 @@ export class ReservationAdminService {
     }
   }
 
-  async deleteReservation(id: number) {
+  async deleteReservation(id: number|null) {
     try {
       const res = await this.auth.delete(`/reservacion/${id}`, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }
       })
-      return res.data.status
     } catch (error: any) {
       return error.response.status;
     }

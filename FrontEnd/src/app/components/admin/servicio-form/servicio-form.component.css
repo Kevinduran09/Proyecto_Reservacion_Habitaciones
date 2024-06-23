@@ -1,0 +1,71 @@
+body {
+    background: linear-gradient(to right, #1d976c, #93f9b9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-control {
+  
+    background-color: #f0f0f0;
+    border: none;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  
+  .btn-success {
+  
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+  }
+  
+  .text-center a {
+    color: #007bff;
+  }
+  
+  .img-thumbnail {
+    background-color: #f0f0f0;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  
+    border: 1px solid rgba(0, 0, 0, .2);
+    margin-bottom: 15px;
+    padding: 0 !important;
+  }
+  
+  #togglepassword {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+    cursor: pointer;;
+  }
+  
+  .contentpass {
+    position: relative;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+   
+  }
+  
+  .form-container {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .image-container {
+    flex-basis: 300px;
+    max-width: 300px;
+  }
