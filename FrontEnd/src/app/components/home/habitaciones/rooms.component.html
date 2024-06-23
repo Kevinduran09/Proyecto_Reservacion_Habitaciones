@@ -4,10 +4,10 @@
             <h2 class="fs-1 pt-2 text-dark">Encuentra tu habitación deseada</h2>
 
 
-            @if(!allRoomsCompleted){
+            @if(allRoomsCompleted){
             <div class="">
                 <div class="m-2">
-                    <button class="btn-sb p-2 py-2 process" (click)="processReservation()">
+                    <button  mat-button matStepperNext class="btn-sb p-2 py-2 process" (click)="processReservation()">
                         Procesar Reservación
                     </button>
                 </div>
@@ -15,10 +15,20 @@
             }
         </div>
         <div class="row gap-5">
-            <span class="fs-5 text-secondary ms-3">Utilice los criterios de busqueda que desee</span>
+            
+
+            
+
             <!-- lado izquierdo -->
             <div class="col">
                 <form [formGroup]="formdata" (ngSubmit)="onsubmit()" class="row g-3 justify-content-center">
+                <div class="text-center d-flex justify-content-between align-items-center mb-3">
+                    <span class="fs-5 text-secondary ms-3">Utilice los criterios de busqueda que desee</span>
+                    <button class="btn-sb p-2 py-2" style="height: inherit;width: 200px;">Buscar <fa-icon [icon]="faPaperPlane"
+                            size="sm"></fa-icon>
+                    </button>
+                </div>
+               
                     <!-- Fecha de Ingreso y Salida -->
                     <div class="col-md-6">
                         <mat-form-field appearance="fill" class="w-100">
@@ -79,21 +89,17 @@
                     </div>
 
                     <!-- Botón de Buscar -->
-                    <div class="col-12 text-center" (dis)]>
-                        <button class="btn-sb p-2 py-2 w-50" style="height: inherit;">Buscar <fa-icon
-                                [icon]="faPaperPlane" size="sm"></fa-icon>
-                        </button>
-                    </div>
+                   
                 </form>
 
             </div>
             <!-- lado derecho -->
             <div class="col">
-                <div class="row g-3  justify-content-center">
-                    <span *ngIf="roomDetails.length > 0" class="fs-2" >Habitaciones deseadas</span>
+                <div class="row g-3 justify-content-center">
+                    <span *ngIf="roomDetails.rooms.length > 0" class="fs-2" >Habitaciones deseadas</span>
                     <div class="room-indicators d-flex flex-row">
-                        <div  *ngFor="let room of roomDetails.rooms; let i = index"  (click)="setActiveReservation(i)" [class.selected]="room !=null"
-                            [class.not-selected]="room==null">
+                        <div  *ngFor="let room of roomDetails.rooms; let i = index"(click)="setActiveReservation(i)" [class.selected]="isActiveReservation(i)"
+                              [class.not-selected]="!isActiveReservation(i)">
                             Room {{ i + 1 }}
                         </div>
                     </div>
@@ -108,7 +114,7 @@
 
         <!-- Resultados de las Habitaciones -->
         <div class="row mt-4">
-            <div class="col-12 d-flex flex-wrap justify-content-center gap-2">
+            <div class="col-12  mt-4 d-flex flex-wrap justify-content-center gap-2">
                 <app-room-card *ngFor="let room of rooms" [room]="room"
                     (selectRoom)="selectRoom($event)"></app-room-card>
             </div>

@@ -1,112 +1,79 @@
-<!-- Reservación Confirmación Componente HTML -->
-<div class="p-5 mt-4">
-    <h2 class="text-center mb-4">Detalles de Tu Reservación</h2>
-        <div class="">
-            <div class="row">
-                <div class="col col-8">
-                <div class="container mt-4" *ngIf="roomSelections">
-                
-                            <div class="reservation-container" *ngFor="let room of roomSelections; let i = index">
-                                <h2>{{ room.roomDetails.nombre }}</h2>
-                                <div class="reservation-card">
-                                    <div class="reservation-header">
-                                        <span>{{ room.roomDetails.descripcion }}</span>
-                                    </div>
-                                    <p class="rate-type">Best Available Rate</p>
-                                    
-                                    <p class="details">{{ room.roomDetails.tipo_habitacion.tipoHabitacion }} | ${{ room.roomDetails.precioNoche }}</p>
-                                    <div class="d-flex align-items-center gap-5 p-2 text-nowrap">
-                                        <div>
-                                            <span class="mt-2 d-block">Capacidad</span>
-                                            <div class="d-flex align-items-center">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                                <span class="text-secondary ms-2">{{ room.roomDetails.tipo_habitacion.capacidad }} Personas</span>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <span class="mt-2 d-block">Tipo Cama</span>
-                                            <div class="d-flex align-items-center">
-                                                <i class="fa fa-bed" aria-hidden="true"></i>
-                                                <span class="text-secondary ms-2">{{ room.roomDetails.tipo_cama.tipo }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="services d-flex flex-wrap mt-2">
-                                        <span class="text-secondary ms-2">Servicios</span>
-                                        <ng-container *ngFor="let servicio of room.roomDetails.servicios">
-                                            <div class="service-icon mx-2">
-                                                <i class="fa fa-concierge-bell" aria-hidden="true"></i>
-                                                <span>{{ servicio.nombre }}</span>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            
-                        <!-- Información personal y subtotal -->
-                    
-                        </div>
+<section class="container-fluid">
+    <div class="row w-100 vh-100">
+
+
+        <div class="col col-8 " *ngFor="let room of roomSelections">
+            <div class="card m-1 shadow w-100"
+                style="border: none; max-width: 100%;height: 250px; display: flex;flex-direction: row;">
+                <div class="content-img" style="flex: 1.1;">
+                    <div
+                        style="height: 100%; width: 100%; background: url('{{ room.roomDetails.url }}'); background-position: center; background-repeat: no-repeat; background-size: cover;">
                     </div>
                 </div>
-
-                <div class="col col-4">
-                    <!-- reservacion.component.html -->
-                    <div class="card shadow w-100 p-4">
-                        <div class="content p-3">
-                            <div>
-                                <div class="content-img">
-                                    <span class="h2">Informacion Personal</span>
-                                    <img src="https://res.cloudinary.com/dkaghsmad/image/upload/v1719043916/usuarios/stwuglztszdbtlbp8k2s.png" alt="" 
-                                    class="img-fluid"  width="150" height="100">
+                <div class="" style="flex: 2; display: flex; flex-direction: row; justify-content: space-between;">
+                    <div class="content w-75 ">
+                        <div class="d-flex flex-column h-100 justify-content-between align-items-start p-3"
+                            style="width: 300px;">
+                            <span class="fw-medium d-block fs-3 text-center" style="color: #088baf;">{{
+                                room.roomDetails.nombre
+                                }}</span>
+                            <div class="d-flex flex-column justify-content-start px-2">
+                                <div class="text-center mt-2">
+                                    <span>Capacidad</span>
+                                    <i class="fa fa-user" style="font-size: 24px;"></i>
+                                    <span class="text-secondary ms-2">{{ room.roomDetails.tipo_habitacion.capacidad }}
+                                        Personas</span>
                                 </div>
-                                <div class="content-info p-3">
-                                    <div class="group mt-3">
-                                        <span>{{identity.nombre}} {{identity.apellidos}}</span>
-                                    </div>
-                                    <div class="group mt-3">
-                                        <span>Cedula indentidad: {{identity.cedula}}</span>
-                                    </div>
-                                    <div class="group mt-3">
-                                        <span>correo: {{identity.correo}}</span>
-                                    </div>
-
-                                    <div>
-                                        <span>
-                                         Fecha Ingreso:{{dataGroupDate.dateStart}}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>
-                                         Fecha Salida:{{dataGroupDate.dateEnd}}
-                                        </span>
-                                    </div>
-                                    <div class="actions">
-                                        <button (click)="finalizeReservation()" class="btn add-room w-50">Confirmar</button>
-                                       
-                                    </div>
-                                    
+                                <div class="text-center mt-2">
+                                    <span>Tipo Cama </span>
+                                    <i class="fa fa-bed" style="font-size: 24px;"></i>
+                                    <span class="text-secondary ms-2">{{ room.roomDetails.tipo_cama.tipo }}</span>
                                 </div>
                             </div>
+                            <div class="services d-flex flex-wrap justify-content-start mt-2">
+                                <ng-container *ngFor="let servicio of room.roomDetails.servicios">
+                                    <div class="service-icon mx-2 text-center">
+                                        <i class="fa fa-bell" style="font-size: 14px;"></i>
+                                        <span>{{ servicio.nombre }} ${{ servicio.costo }}</span>
+                                    </div>
+                                </ng-container>
+                            </div>
                         </div>
+                    </div>
+                    <div class="d-flex w-100 justify-content-between align-items-end mb-1 mt-2 p-2">
+                        <span class="fs-4">${{ room.roomDetails.precioNoche }} por noche</span>
                     </div>
                 </div>
             </div>
         </div>
-
-</div>
-
-<!-- 
-<div class="price-details summary">
-    <div class="subtotal">
-        <span>Reservation Subtotal</span>
-        <span>$</span>
+        <div class="col col-4">
+            <div class="card" style="border: none; width: 300px;">
+                <div class="header p-3">
+                    <span class="h2">Informacion General:</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="h4">{{ identity.nombre }} {{ identity.apellidos }}</h5>
+                    <div class="text">
+                        <strong class="mt-5">Email:</strong> {{ identity.correo }}<br>
+                        <strong class="mt-5">Cédula:</strong> {{ identity.cedula }}
+                    </div>
+                    <div class="info mt-5">
+                        <h5 class="card-title">Detalles de la Reservación</h5>
+                        <p class="card-text">
+                            <strong>Fecha de Entrada:</strong> {{ dataGroupDate.dateEnd }}<br>
+                            <strong>Fecha de Salida:</strong> {{ dataGroupDate.dateStart}}<br>
+                            <strong>Cantidad de Habitaciones:</strong> {{calculartotalHabitaciones() }}<br>
+                            <strong>Costo Total:</strong> ${{ loadTotalCost()}}
+                        </p>
+        
+                        <div class="d-flex w-100 text-center">
+                            <button type="button" class="btn btn-outline-secondary" (click)="finalizeReservation()">Confirnar</button>
+                        </div>
+                    </div>
+        
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="total">
-        <span>Total Reservation</span>
-        <span>$</span>
-         Example calculation for total 
-    </div>
-    <div class="taxes">
-        <span>Included in the Rate</span>
-        <span>Taxes $29.68</span>
-    </div> 
--->
+
+</section>

@@ -40,6 +40,7 @@ export class HeroComponent {
       });
       return;
     }
+    
     this.router.navigate(['/rooms'])
   }
 }

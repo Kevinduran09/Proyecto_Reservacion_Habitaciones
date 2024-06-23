@@ -26,9 +26,9 @@ export class ReservationAdminService {
     }
   }
 
-  async createReservation(reservation: FormData) {
+  async createReservation(reservation: {}) {
     try {
-      const res = await this.auth.post('/reservacion', reservation, {
+      const res = await this.auth.post('/users/Reservacion', reservation, {
         headers: {
           'Authorization': `Bearer ${sessionStorage.getItem('token')}`
         }

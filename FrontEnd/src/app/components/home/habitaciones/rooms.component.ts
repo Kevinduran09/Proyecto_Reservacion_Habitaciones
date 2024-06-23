@@ -94,7 +94,11 @@ export class RoomsComponent implements OnInit {
     this.reservationService.setDataForm(this.formdata.value);
     console.log('Procesando reservación con las siguientes selecciones:', this.reservationService.getCurrentSelections());
     // Ejemplo de redirección o manejo
-    this.router.navigate(['/confirm-reservation']); // Asegúrate de importar y configurar Router si usas esta opción
+    this.reservationService.currentReservationState.subscribe(state=>{
+      console.log('Current state:', state);
+    })
+    
+    this.router.navigate(['/confirm-reservation']); 
   }
 
   handleRoomDataChange(event: any) {
@@ -103,7 +107,7 @@ export class RoomsComponent implements OnInit {
 
     this.reservationService.setTotalRoomsNeeded(this.roomDetails)
     this.reservationService.currentReservationState.subscribe(state => {
-      console.log('Current state:', state);
+     
       this.allRoomsCompleted = this.reservationService.allRoomsSelected()
       console.log(this.allRoomsCompleted);
       
@@ -122,7 +126,9 @@ export class RoomsComponent implements OnInit {
   setActiveReservation(index: number) {
     this.reservationService.setActiveRoomReservation(index);
   }
-
+  isActiveReservation(index: number): boolean {
+    return index == this.reservationService.getAtiveRoomReservation()// Compara el índice con el activo
+  }
   async onsubmit() {
     if (!this.isAuth) {
       this.swal.showAlert({
