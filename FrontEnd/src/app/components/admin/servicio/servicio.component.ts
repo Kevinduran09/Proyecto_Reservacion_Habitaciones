@@ -13,6 +13,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { SweetAlertService } from '../../../services/sweet-alert.service';
 
+/**
+ * @title Data table with sorting, pagination, and filtering.
+ */
 @Component({
   selector: 'app-servicio',
   standalone: true,
@@ -31,7 +34,7 @@ export class ServicioComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(private service: ServiceAdminService, private swal: SweetAlertService) {
-    
+
   }
 
   ngOnInit() {
