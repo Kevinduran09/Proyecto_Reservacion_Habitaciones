@@ -1,0 +1,126 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center w-100 px-5">
+    <!-- Sección de Formulario y Título -->
+    <div class="form-container">
+      <div class="text-center mb-4">
+        <h3 class="text-white display-3">Formulario de Habitaciones</h3>
+      </div>
+      <form
+        class="text-white"
+        #habitacionForm="ngForm"
+        (ngSubmit)="onsubmit()"
+        enctype="multipart/form-data"
+      >
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input
+            id="nombre"
+            type="text"
+            #nombre="ngModel"
+            class="form-control"
+            name="nombre"
+            required
+            [(ngModel)]="Room.nombre"
+          />
+
+          <label for="descripcion">Descripcion</label>
+          <input
+            id="descripcion"
+            type="text"
+            #descripcion="ngModel"
+            class="form-control"
+            name="descripcion"
+            required
+            [(ngModel)]="Room.descripcion"
+          />
+
+          <label for="disponibilidad">Disponibilidad de la habitacion</label>
+          <select
+            id="disponibilidad"
+            #pulic_id="ngModel"
+            class="form-control"
+            name="disponibilidad"
+            required
+            [(ngModel)]="Room.disponibilidad"
+          ></select>
+
+          <label for="precioNoche">Precio de habitacion por Noche</label>
+          <input
+            id="precioNoche"
+            type="text"
+            #precioNoche="ngModel"
+            class="form-control"
+            name="precioNoche"
+            required
+            [(ngModel)]="Room.precioNoche"
+          />
+
+          <label for="url">Foto de la habitacion</label>
+          <div class="mb-2">
+            <input
+              id="url"
+              type="file"
+              (change)="onFileSelected($event)"
+              class="form-control"
+              name="url"
+            />
+          </div>
+
+          <label for="pulic_id">Tipo de habitacion</label>
+          <select
+            id="pulic_id"
+            #pulic_id="ngModel"
+            class="form-control"
+            name="pulic_id"
+            required
+            [(ngModel)]="Room.public_id"
+          ></select>
+
+          <label for="tipo_cama">Tipo de cama</label>
+          <select
+            id="tipo_cama"
+            #pulic_id="ngModel"
+            class="form-control"
+            name="tipo_cama"
+            required
+            [(ngModel)]="Room.tipo_cama"
+          ></select>
+        </div>
+
+        <div class="text-center mt-3">
+          <ng-container *ngIf="Room.id != null; else addButton">
+            <button
+              type="submit"
+              class="btn btn-success mt-2"
+              [disabled]="habitacionForm.invalid"
+            >
+              Actualizar
+            </button>
+          </ng-container>
+          <ng-template #addButton>
+            <button
+              type="submit"
+              class="btn btn-success mt-2"
+              [disabled]="habitacionForm.invalid"
+            >
+              Agregar
+            </button>
+          </ng-template>
+        </div>
+      </form>
+    </div>
+
+    <!-- Sección de Imagen del Usuario -->
+    <div class="image-container" *ngIf="imagenRender || Room.url">
+      <div class="text-center">
+        <h4 class="text-white">Imagen del Usuario</h4>
+        <img
+          [src]="imagenRender || Room.url"
+          alt="Foto del Usuario"
+          class="img-thumbnail"
+          style="max-width: 300px"
+        />
+      </div>
+    </div>
+  </div>
+</div>

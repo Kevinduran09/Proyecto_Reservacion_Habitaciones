@@ -33,4 +33,68 @@ export class roomsService{
             
         }
     }
+
+    async getRooms() {
+        try {
+          const res = await this.roomsApi.get('/habitacion', {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+          return res.data
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
+    
+      async getRoom(id:number) {
+        try {
+          const res = await this.roomsApi.get(`/habitacion/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+          return res.data
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
+
+      async deleteRoom(id:number){
+        try {
+          const res = await this.roomsApi.delete(`/habitacion/${id}`, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
+
+      async updateRoom(id:number|null,data:FormData){
+        try {
+          const res = await this.roomsApi.post(`/habitacion/edit/${id}`, data, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+          return res.data.status
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
+
+      async createRoom(room:FormData) {
+        try {
+          const res = await this.roomsApi.post('/habbitacion', room, {
+            headers: {
+              'Authorization': `Bearer ${sessionStorage.getItem('token')}`
+            }
+          })
+          return res.data
+        } catch (error: any) {
+          return error.response.status;
+        }
+      }
 }

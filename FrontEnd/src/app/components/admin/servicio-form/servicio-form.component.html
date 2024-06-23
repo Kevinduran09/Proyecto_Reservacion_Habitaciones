@@ -1,0 +1,49 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center w-100 px-5">
+        <!-- Sección de Formulario y Título -->
+        <div class="form-container">
+            <div class="text-center mb-4">
+                <h3 class="text-white display-3">Formulario de servicio</h3>
+            </div>
+            <form class="text-white" #userForm="ngForm" (ngSubmit)="onsubmit()" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input id="nombre" type="text" #nombre="ngModel" class="form-control" name="nombre" required
+                                [(ngModel)]="servicio.nombre" />
+
+                            <label for="descripcion">Descripción</label>
+                            <input id="descripcion" type="text" #descripcion="ngModel" class="form-control"
+                                name="descripcion" required [(ngModel)]="servicio.descripcion" />
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="costo">Costo</label>
+                            <input id="costo" type="text" #costo="ngModel" class="form-control" name="costo" required
+                                [(ngModel)]="servicio.costo" />
+
+                            <label for="activo">Activo</label>
+                            <input id="activo" type="text" #activo="ngModel" class="form-control" name="activo" required
+                                [(ngModel)]="servicio.activo" />
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button *ngIf="servicio.id != null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Actualizar
+                    </button>
+                    <button *ngIf="servicio.id == null" type="submit" class="btn btn-success mt-2"
+                        [disabled]="userForm.invalid">
+                        Agregar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
