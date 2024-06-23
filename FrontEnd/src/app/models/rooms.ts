@@ -1,14 +1,14 @@
-export interface typeRoom{
+export interface typeRoom {
     id: number,
-    tipoHabitacion:string,
-    capacidad:number
+    tipoHabitacion: string,
+    capacidad: number
 }
-export interface filterRoom{
-    dateStart:string,
-    dateEnd:string,
-    typeRoom:string | null,
-    minValue:number|null,
-    maxValue:number|null
+export interface filterRoom {
+    dateStart: string,
+    dateEnd: string,
+    typeRoom: string | null,
+    minValue: number | null,
+    maxValue: number | null
 }
 export interface room {
     id: number|null;
@@ -21,8 +21,8 @@ export interface room {
     tipo_habitacion_id: number;
     tipo_cama_id: number;
     tipo_habitacion: typeRoom;
-    imagen:File|null
-    tipo_cama: typeBed;
+    imagen: File | null
+    tipo_cama: typeBed | any;
     servicios: services[];
 }
 
