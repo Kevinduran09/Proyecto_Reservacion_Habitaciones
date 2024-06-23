@@ -47,19 +47,8 @@ export class ServicioFormComponent implements OnInit {
   }
 
   onUpdate() {
-
-    const formData = new FormData();
-
-    // Añade cada propiedad verificando su tipo
-    formData.append('id', this.servicio.id?.toString() ?? ''); // Maneja null con el operador ?? si es posible que id sea null
-    formData.append('nombre', this.servicio.nombre);
-    formData.append('descripcion', this.servicio.descripcion);
-    formData.append('costo', this.servicio.costo?.toString() ?? '');
-    formData.append('estado', this.servicio.activo);
-
-    console.log(formData)
     try {
-      this.service.updateService(this.servicio.id, formData);
+      this.service.updateService(this.servicio.id, this.servicio);
       this.swal.showToast('Servicio actualizado correctamente', 'success');
     } catch (error) {
       console.error(error)

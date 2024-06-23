@@ -46,6 +46,8 @@ Route::middleware([VerifyToken::class])->group(function () {
 Route::middleware([VerifyToken::class, verfiryAdminRol::class])->group(function () {
     Route::patch('tipoCamas/{id}', [TipoCamaController::class, 'partialUpdate']);
     Route::patch('servicio/{id}', [ServicioController::class, 'partialUpdate']);
+    Route::post('servicio/{id}', [ServicioController::class, 'update']);
+    
 
     Route::resource('/tipoCama', TipoCamaController::class);
     Route::resource('/servicio', ServicioController::class);
